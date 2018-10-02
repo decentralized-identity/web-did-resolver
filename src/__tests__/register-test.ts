@@ -1,10 +1,10 @@
 import resolve from 'did-resolver'
 import register from '../register'
-import mockAxios from 'axios'
-// TODO @mi-xu: figure out better typescript support for the mocked module
+import mock from 'xhr-mock'
 
 describe('https did resolver', () => {
   const did: string = 'did:https:example.com'
+  const url: string = 'https://example.com/.well-known/did.json'
   const identity: string = '0x2Cc31912B2b0f3075A87b3640923D45A26cef3Ee'
   const validDidDoc: DIDDoc = {
     '@context': 'https://w3id.org/did/v1',
@@ -24,102 +24,65 @@ describe('https did resolver', () => {
       },
     ],
   }
-  const httpsRequest = { agent: { protocol: 'https ' } }
-  const httpRequest = { agent: { protocol: 'http ' } }
-  const jsonHeaders = { 'content-type': 'application/json' }
-  const htmlHeaders = { 'content-type': 'text/html' }
-
-  beforeAll(() => {
-    register()
+  const validResponse: string = JSON.stringify(validDidDoc)
+  const noContextResponse: string = JSON.stringify({
+    id: validDidDoc.id,
+    publicKey: validDidDoc.publicKey,
+    authentication: validDidDoc.authentication,
+  })
+  const wrongIdResponse: string = JSON.stringify({
+    '@context': validDidDoc['@context'],
+    id: 'did:https:wrong.com',
+    publicKey: validDidDoc.publicKey,
+    authentication: validDidDoc.authentication,
+  })
+  const noPublicKeyResponse: string = JSON.stringify({
+    '@context': validDidDoc['@context'],
+    id: validDidDoc.id,
+    authentication: validDidDoc.authentication,
   })
 
-  afterEach(() => {
-    jest.clearAllMocks()
-  })
+  beforeAll(() => register())
+  beforeEach(() => mock.setup())
+  afterEach(() => mock.teardown())
 
   it('resolves document', () => {
-    // we need to assert the type as a jest mock here because typescript
-    // does not understand that it's being mocked
-    (mockAxios.get as jest.Mock<any>).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: validDidDoc,
-        request: httpsRequest,
-        headers: jsonHeaders,
-      })
-    )
+    mock.get(url, { status: 200, body: validResponse })
     return expect(resolve(did)).resolves.toEqual(validDidDoc)
   })
 
-  it('fails if the did document is not valid json', () => {
-    (mockAxios.get as jest.Mock<any>).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: null,
-        request: httpsRequest,
-        headers: htmlHeaders,
-      })
-    )
+  it('fails if the did is not a valid https url', () => {
+    mock.get(url, { status: 404 })
     return expect(resolve(did)).rejects.toThrowError(
-      'Invalid DID document type'
+      'DID must resolve to a valid https URL'
+    )
+  })
+
+  it('fails if the did document is not valid json', () => {
+    mock.get(url, { status: 200, body: 'invalid json' })
+    return expect(resolve(did)).rejects.toThrowError(
+      'DID must resolve to a JSON document'
     )
   })
 
   it('fails if the did document is missing a context', () => {
-    const { id, publicKey, authentication } = validDidDoc;
-    (mockAxios.get as jest.Mock<any>).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: { id, publicKey, authentication },
-        request: httpsRequest,
-        headers: jsonHeaders,
-      })
-    )
+    mock.get(url, { status: 200, body: noContextResponse })
     return expect(resolve(did)).rejects.toThrowError(
       'DID document missing context'
     )
   })
 
   it('fails if the did document id does not match', () => {
-    (mockAxios.get as jest.Mock<any>).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: {
-          ...validDidDoc,
-          id: 'did:ethr:0x123456',
-        },
-        request: httpsRequest,
-        headers: jsonHeaders,
-      })
-    )
+    mock.get(url, { status: 200, body: wrongIdResponse })
     return expect(resolve(did)).rejects.toThrowError(
       'DID document id does not match requested did'
     )
   })
 
   it('fails if the did document has no public keys', () => {
-    const { publicKey, ...invalidDidDoc } = validDidDoc;
-    (mockAxios.get as jest.Mock<any>).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: invalidDidDoc,
-        request: httpsRequest,
-        headers: jsonHeaders,
-      })
-    )
+    mock.get(url, { status: 200, body: noPublicKeyResponse })
     return expect(resolve(did)).rejects.toThrowError(
       'DID document has no public keys'
     )
-  })
-
-  it('fails if the did is an invalid https url', () => {
-    (mockAxios.get as jest.Mock<any>).mockImplementationOnce(() =>
-      Promise.reject(new Error('invalid https cert'))
-    )
-    return expect(resolve(did)).rejects.toThrowError('invalid https cert')
-  })
-
-  it('fails if the did is an http url', () => {
-    (mockAxios.get as jest.Mock<any>).mockImplementationOnce(() =>
-      Promise.resolve({
-        request: httpRequest,
-      })
-    )
-    return expect(resolve(did)).rejects.toThrowError('Not a valid https DID')
   })
 })

@@ -1,7 +1,42 @@
-import axios from 'axios'
 import { registerMethod } from 'did-resolver'
 
+declare global {
+  interface Window {
+    XMLHttpRequest: any
+  }
+}
+declare var require: any
+
 const DOC_PATH = '/.well-known/did.json'
+
+function get(url: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    // declare XMLHttpRequest in here so it can be mocked for tests
+    const XMLHttpRequest =
+      typeof window !== 'undefined'
+        ? window.XMLHttpRequest
+        : require('xmlhttprequest').XMLHttpRequest
+
+    const request = new XMLHttpRequest()
+    request.open('GET', url)
+    request.onreadystatechange = () => {
+      if (!request || request.readyState !== 4) return
+      if (request.status === 200) {
+        resolve(request.response)
+      } else {
+        reject(
+          new Error(
+            `Invalid http response status ${request.status}: ${
+              request.responseText
+            }`
+          )
+        )
+      }
+    }
+    request.setRequestHeader('accept', 'application/json')
+    request.send()
+  })
+}
 
 export default function register() {
   async function resolve(
@@ -9,40 +44,33 @@ export default function register() {
     parsed: ParsedDID
   ): Promise<DIDDoc | null> {
     const url: string = `https://${parsed.id}${DOC_PATH}`
+
+    let response: any = null
     try {
-      const res = await axios.get(url)
-      // even if the requested url is https, an http response
-      // will be 200 so check the request agent protocol
-      // (would parsing res.request.res.responseUrl be better?)
-      const isHttp = res.request.agent.protocol.trim() === 'http'
-      if (isHttp) throw new Error(`Not a valid https DID: ${did}`)
-      // other types of 200 responses that should
-      // not be treated as a valid https response?
-
-      const isJson =
-        res.headers['content-type'] === 'application/json' &&
-        res.data !== null &&
-        typeof res.data === 'object'
-      // allow other content-types such as text/plain?
-      if (!isJson) throw new Error(`Invalid DID document type`)
-
-      const hasContext = res.data['@context'] === 'https://w3id.org/did/v1'
-      if (!hasContext) throw new Error('DID document missing context')
-
-      const docIdMatchesDid = res.data.id === did
-      if (!docIdMatchesDid)
-        throw new Error('DID document id does not match requested did')
-
-      const docHasPublicKey =
-        Array.isArray(res.data.publicKey) && res.data.publicKey.length > 0
-      if (!docHasPublicKey) throw new Error('DID document has no public keys')
-      // validate each public key object?
-      // need to validate any other did doc attributes?
-
-      return res.data
+      response = await get(url)
     } catch (error) {
-      throw error
+      throw new Error('DID must resolve to a valid https URL')
     }
+
+    let data: any = null
+    try {
+      data = JSON.parse(response)
+    } catch (error) {
+      throw new Error('DID must resolve to a JSON document')
+    }
+
+    const hasContext = data['@context'] === 'https://w3id.org/did/v1'
+    if (!hasContext) throw new Error('DID document missing context')
+
+    const docIdMatchesDid = data.id === did
+    if (!docIdMatchesDid)
+      throw new Error('DID document id does not match requested did')
+
+    const docHasPublicKey =
+      Array.isArray(data.publicKey) && data.publicKey.length > 0
+    if (!docHasPublicKey) throw new Error('DID document has no public keys')
+
+    return data
   }
   registerMethod('https', resolve)
 }
