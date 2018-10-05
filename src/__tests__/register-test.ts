@@ -54,7 +54,7 @@ describe('https did resolver', () => {
   it('fails if the did is not a valid https url', () => {
     mock.get(url, { status: 404 })
     return expect(resolve(did)).rejects.toThrowError(
-      'DID must resolve to a valid https URL'
+      'DID must resolve to a valid https URL: Invalid http response status 404'
     )
   })
 

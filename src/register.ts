@@ -26,9 +26,9 @@ function get(url: string): Promise<any> {
       } else {
         reject(
           new Error(
-            `Invalid http response status ${request.status}: ${
+            `Invalid http response status ${request.status} ${
               request.responseText
-            }`
+            }`.trim()
           )
         )
       }
@@ -49,7 +49,7 @@ export default function register() {
     try {
       response = await get(url)
     } catch (error) {
-      throw new Error('DID must resolve to a valid https URL')
+      throw new Error(`DID must resolve to a valid https URL: ${error.message}`)
     }
 
     let data: any = null
