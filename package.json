@@ -1,0 +1,42 @@
+{
+  "name": "https-did-resolver",
+  "version": "0.0.1",
+  "description": "Resolve DID documents from an https domain",
+  "main": "lib/register.js",
+  "author": "Mike Xu <mike.xu@consensys.net>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "did-resolver": "^0.0.4",
+    "xmlhttprequest": "^1.8.0"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.1",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-typescript": "^7.0.0",
+    "@types/jest": "^23.3.2",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "jest": "^23.6.0",
+    "prettier": "^1.14.2",
+    "regenerator-runtime": "^0.12.1",
+    "ts-jest": "^23.1.4",
+    "typescript": "^3.0.3",
+    "xhr-mock": "^2.4.1"
+  },
+  "jest": {
+    "coverateDirectory": "./coverage/",
+    "collectCoverage": true
+  }
+}
