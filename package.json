@@ -6,9 +6,8 @@
   "author": "Mike Xu <mike.xu@consensys.net>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@types/axios": "^0.14.0",
-    "axios": "^0.18.0",
-    "did-resolver": "^0.0.4"
+    "did-resolver": "^0.0.4",
+    "xmlhttprequest": "^1.8.0"
   },
   "scripts": {
     "type-check": "tsc --noEmit",
@@ -33,7 +32,8 @@
     "prettier": "^1.14.2",
     "regenerator-runtime": "^0.12.1",
     "ts-jest": "^23.1.4",
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "xhr-mock": "^2.4.1"
   },
   "jest": {
     "coverateDirectory": "./coverage/",
