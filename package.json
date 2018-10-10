@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Resolve DID documents from an https domain",
   "main": "lib/register.js",
+  "types": "lib/register.d.ts",
   "author": "Mike Xu <mike.xu@consensys.net>",
   "license": "Apache-2.0",
   "dependencies": {
@@ -10,33 +11,43 @@
     "xmlhttprequest": "^1.8.0"
   },
   "scripts": {
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch",
-    "build": "npm run build:types && npm run build:js",
-    "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
-    "test": "jest"
+    "build": "tsc",
+    "test": "jest",
+    "dev": "tsc --watch",
+    "format": "prettier"
+  },
+  "browser": {
+    "xmlhttprequest": false
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.1",
-    "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.1.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-typescript": "^7.0.0",
-    "@types/jest": "^23.3.2",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^23.6.0",
+    "@types/jest": "^23.1.1",
     "jest": "^23.6.0",
     "prettier": "^1.14.2",
     "regenerator-runtime": "^0.12.1",
     "ts-jest": "^23.1.4",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.0.3",
     "xhr-mock": "^2.4.1"
   },
   "jest": {
-    "coverateDirectory": "./coverage/",
-    "collectCoverage": true
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ],
+    "coverageDirectory": "./coverage/",
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/**/*.d.ts",
+      "!**/node_modules/**"
+    ]
   }
 }

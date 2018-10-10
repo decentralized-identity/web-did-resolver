@@ -28,8 +28,8 @@ function get(url: string): Promise<any> {
           new Error(
             `Invalid http response status ${request.status} ${
               request.responseText
-            }`.trim()
-          )
+            }`.trim(),
+          ),
         )
       }
     }
@@ -41,7 +41,7 @@ function get(url: string): Promise<any> {
 export default function register() {
   async function resolve(
     did: string,
-    parsed: ParsedDID
+    parsed: ParsedDID,
   ): Promise<DIDDoc | null> {
     const url: string = `https://${parsed.id}${DOC_PATH}`
 
