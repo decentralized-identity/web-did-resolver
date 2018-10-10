@@ -54,35 +54,35 @@ describe('https did resolver', () => {
   it('fails if the did is not a valid https url', () => {
     mock.get(url, { status: 404 })
     return expect(resolve(did)).rejects.toThrowError(
-      'DID must resolve to a valid https URL: Invalid http response status 404'
+      'DID must resolve to a valid https URL: Invalid http response status 404',
     )
   })
 
   it('fails if the did document is not valid json', () => {
     mock.get(url, { status: 200, body: 'invalid json' })
     return expect(resolve(did)).rejects.toThrowError(
-      'DID must resolve to a JSON document'
+      'DID must resolve to a JSON document',
     )
   })
 
   it('fails if the did document is missing a context', () => {
     mock.get(url, { status: 200, body: noContextResponse })
     return expect(resolve(did)).rejects.toThrowError(
-      'DID document missing context'
+      'DID document missing context',
     )
   })
 
   it('fails if the did document id does not match', () => {
     mock.get(url, { status: 200, body: wrongIdResponse })
     return expect(resolve(did)).rejects.toThrowError(
-      'DID document id does not match requested did'
+      'DID document id does not match requested did',
     )
   })
 
   it('fails if the did document has no public keys', () => {
     mock.get(url, { status: 200, body: noPublicKeyResponse })
     return expect(resolve(did)).rejects.toThrowError(
-      'DID document has no public keys'
+      'DID document has no public keys',
     )
   })
 })

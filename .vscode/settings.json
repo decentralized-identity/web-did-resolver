@@ -1,0 +1,9 @@
+{
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "tslint.enable": true,
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false,
+    "[typescript]": {
+      "editor.formatOnSave": true
+    }
+  }
