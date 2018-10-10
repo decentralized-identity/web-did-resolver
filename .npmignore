@@ -1,0 +1,19 @@
+# Files
+Jenkinsfile
+JenkinsfilePR
+Dockerfile
+.eslintrc.json	
+tslint.json
+tsconfig.json
+*.log
+rollup.config.js
+.project
+.prettierrc
+
+# Directories
+__tests__
+test
+yarn.lock
+node_modules
+src
+.vscode
