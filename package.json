@@ -22,10 +22,12 @@
     "prettier": "^1.14.2",
     "regenerator-runtime": "^0.12.1",
     "ts-jest": "^23.1.4",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.0.3",
     "xhr-mock": "^2.4.1"
   },
-
   "jest": {
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
