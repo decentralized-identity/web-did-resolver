@@ -1,6 +1,6 @@
 {
   "name": "https-did-resolver",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Resolve DID documents from an https domain",
   "main": "lib/register.js",
   "types": "lib/register.d.ts",
