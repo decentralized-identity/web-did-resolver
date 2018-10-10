@@ -1,13 +1,13 @@
-import { registerMethod } from 'did-resolver';
+import { registerMethod } from 'did-resolver'
 
 declare global {
   interface Window {
-    XMLHttpRequest: any;
+    XMLHttpRequest: any
   }
 }
-declare var require: any;
+declare var require: any
 
-const DOC_PATH = '/.well-known/did.json';
+const DOC_PATH = '/.well-known/did.json'
 
 function get(url: string): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -15,14 +15,14 @@ function get(url: string): Promise<any> {
     const XMLHttpRequest =
       typeof window !== 'undefined'
         ? window.XMLHttpRequest
-        : require('xmlhttprequest').XMLHttpRequest;
+        : require('xmlhttprequest').XMLHttpRequest
 
-    const request = new XMLHttpRequest();
-    request.open('GET', url);
+    const request = new XMLHttpRequest()
+    request.open('GET', url)
     request.onreadystatechange = () => {
-      if (!request || request.readyState !== 4) return;
+      if (!request || request.readyState !== 4) return
       if (request.status === 200) {
-        resolve(request.response);
+        resolve(request.response)
       } else {
         reject(
           new Error(
@@ -30,12 +30,12 @@ function get(url: string): Promise<any> {
               request.responseText
             }`.trim(),
           ),
-        );
+        )
       }
-    };
-    request.setRequestHeader('accept', 'application/json');
-    request.send();
-  });
+    }
+    request.setRequestHeader('accept', 'application/json')
+    request.send()
+  })
 }
 
 export default function register() {
@@ -43,36 +43,34 @@ export default function register() {
     did: string,
     parsed: ParsedDID,
   ): Promise<DIDDoc | null> {
-    const url: string = `https://${parsed.id}${DOC_PATH}`;
+    const url: string = `https://${parsed.id}${DOC_PATH}`
 
-    let response: any = null;
+    let response: any = null
     try {
-      response = await get(url);
+      response = await get(url)
     } catch (error) {
-      throw new Error(
-        `DID must resolve to a valid https URL: ${error.message}`,
-      );
+      throw new Error(`DID must resolve to a valid https URL: ${error.message}`)
     }
 
-    let data: any = null;
+    let data: any = null
     try {
-      data = JSON.parse(response);
+      data = JSON.parse(response)
     } catch (error) {
-      throw new Error('DID must resolve to a JSON document');
+      throw new Error('DID must resolve to a JSON document')
     }
 
-    const hasContext = data['@context'] === 'https://w3id.org/did/v1';
-    if (!hasContext) throw new Error('DID document missing context');
+    const hasContext = data['@context'] === 'https://w3id.org/did/v1'
+    if (!hasContext) throw new Error('DID document missing context')
 
-    const docIdMatchesDid = data.id === did;
+    const docIdMatchesDid = data.id === did
     if (!docIdMatchesDid)
-      throw new Error('DID document id does not match requested did');
+      throw new Error('DID document id does not match requested did')
 
     const docHasPublicKey =
-      Array.isArray(data.publicKey) && data.publicKey.length > 0;
-    if (!docHasPublicKey) throw new Error('DID document has no public keys');
+      Array.isArray(data.publicKey) && data.publicKey.length > 0
+    if (!docHasPublicKey) throw new Error('DID document has no public keys')
 
-    return data;
+    return data
   }
-  registerMethod('https', resolve);
+  registerMethod('https', resolve)
 }
