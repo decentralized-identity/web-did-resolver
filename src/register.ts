@@ -22,7 +22,7 @@ function get(url: string): Promise<any> {
     request.onreadystatechange = () => {
       if (!request || request.readyState !== 4) return
       if (request.status === 200) {
-        resolve(request.response)
+        resolve(request.responseText)
       } else {
         reject(
           new Error(
