@@ -1,4 +1,4 @@
-import { registerMethod } from 'did-resolver'
+import { registerMethod, ParsedDID, DIDDocument } from 'did-resolver'
 
 declare global {
   interface Window {
@@ -28,7 +28,7 @@ function get(url: string): Promise<any> {
           new Error(
             `Invalid http response status ${request.status} ${
               request.responseText
-            }`.trim(),
+              }`.trim(),
           ),
         )
       }
@@ -42,7 +42,7 @@ export default function register() {
   async function resolve(
     did: string,
     parsed: ParsedDID,
-  ): Promise<DIDDoc | null> {
+  ): Promise<DIDDocument | null> {
     const url: string = `https://${parsed.id}${DOC_PATH}`
 
     let response: any = null
