@@ -1,13 +1,13 @@
 {
   "name": "https-did-resolver",
-  "version": "0.0.3",
+  "version": "0.1.0-alpha1",
   "description": "Resolve DID documents from an https domain",
   "main": "lib/register.js",
   "types": "lib/register.d.ts",
   "author": "Mike Xu <mike.xu@consensys.net>",
   "license": "Apache-2.0",
   "dependencies": {
-    "did-resolver": "^0.0.6-alpha-1",
+    "did-resolver": "0.0.6-alpha5",
     "xmlhttprequest": "^1.8.0"
   },
   "scripts": {
