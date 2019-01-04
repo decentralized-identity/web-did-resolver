@@ -1,4 +1,4 @@
-import resolve from 'did-resolver'
+import resolve, { DIDDocument } from 'did-resolver'
 import register from '../register'
 import mock from 'xhr-mock'
 
@@ -6,7 +6,7 @@ describe('https did resolver', () => {
   const did: string = 'did:https:example.com'
   const url: string = 'https://example.com/.well-known/did.json'
   const identity: string = '0x2Cc31912B2b0f3075A87b3640923D45A26cef3Ee'
-  const validDidDoc = {
+  const validDidDoc: DIDDocument = {
     '@context': 'https://w3id.org/did/v1',
     id: did,
     publicKey: [
