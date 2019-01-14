@@ -1,13 +1,13 @@
 {
   "name": "https-did-resolver",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Resolve DID documents from an https domain",
   "main": "lib/register.js",
   "types": "lib/register.d.ts",
   "author": "Mike Xu <mike.xu@consensys.net>",
   "license": "Apache-2.0",
   "dependencies": {
-    "did-resolver": "^0.0.4",
+    "did-resolver": "0.0.6",
     "xmlhttprequest": "^1.8.0"
   },
   "scripts": {
@@ -20,15 +20,15 @@
     "xmlhttprequest": false
   },
   "devDependencies": {
-    "@types/jest": "^23.1.1",
+    "@types/jest": "^23.3.10",
     "jest": "^23.6.0",
-    "prettier": "^1.14.2",
+    "prettier": "^1.15.3",
     "regenerator-runtime": "^0.12.1",
-    "ts-jest": "^23.1.4",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.15.0",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.12.0",
+    "tslint-config-prettier": "^1.17.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.0.3",
+    "typescript": "^3.2.2",
     "xhr-mock": "^2.4.1"
   },
   "jest": {
