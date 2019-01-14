@@ -7,7 +7,7 @@
   "author": "Mike Xu <mike.xu@consensys.net>",
   "license": "Apache-2.0",
   "dependencies": {
-    "did-resolver": "0.0.6-alpha5",
+    "did-resolver": "0.0.6",
     "xmlhttprequest": "^1.8.0"
   },
   "scripts": {
