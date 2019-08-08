@@ -50,13 +50,13 @@ Note this uses the `Secp256k1VerificationKey2018` type and an `ethereumAddress` 
 The resolver presents a simple `resolver()` function that returns a ES6 Promise returning the DID document.
 
 ```js
-import resolve from 'did-resolver'
-import registerResolver from 'https-did-resolver'
+import { Resolver } from 'did-resolver'
+import getResolver from 'https-did-resolver'
 
-registerResolver()
-
-resolve('did:https:example.com').then(doc => console.log)
+const httpsResolver = getResolver
+const didResolver = new Resolver({https: httpsResolver})
+didResolver.resolve('did:https:example.com').then(doc => console.log)
 
 // You can also use ES7 async/await syntax
-const doc = await resolve('did:https:example.com')
+const doc = await didResolver.resolve('did:https:example.com')
 ```
