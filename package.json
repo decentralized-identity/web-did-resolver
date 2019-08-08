@@ -2,12 +2,12 @@
   "name": "https-did-resolver",
   "version": "0.1.0",
   "description": "Resolve DID documents from an https domain",
-  "main": "lib/register.js",
-  "types": "lib/register.d.ts",
+  "main": "lib/resolver.js",
+  "types": "lib/resolver.d.ts",
   "author": "Mike Xu <mike.xu@consensys.net>",
   "license": "Apache-2.0",
   "dependencies": {
-    "did-resolver": "0.0.6",
+    "did-resolver": "uport-project/did-resolver#feature/unglobalize",
     "xmlhttprequest": "^1.8.0"
   },
   "scripts": {

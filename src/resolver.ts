@@ -1,4 +1,4 @@
-import { registerMethod, ParsedDID, DIDDocument } from 'did-resolver'
+import { ParsedDID, DIDDocument } from 'did-resolver'
 
 declare global {
   interface Window {
@@ -38,8 +38,8 @@ function get(url: string): Promise<any> {
   })
 }
 
-export default function register() {
-  async function resolve(
+export default function getResolver() {
+  return async function resolve(
     did: string,
     parsed: ParsedDID,
   ): Promise<DIDDocument | null> {
@@ -72,5 +72,4 @@ export default function register() {
 
     return data
   }
-  registerMethod('https', resolve)
 }
