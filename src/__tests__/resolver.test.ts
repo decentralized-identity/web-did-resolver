@@ -42,7 +42,8 @@ describe('https did resolver', () => {
     authentication: validDidDoc.authentication,
   })
 
-  let didResolver: Resolver, httpsDidResolver: { [index: string]: DIDResolver }
+  let didResolver: Resolver
+  let httpsDidResolver: { [index: string]: DIDResolver }
 
   beforeAll(async () => {
     httpsDidResolver = getResolver()
