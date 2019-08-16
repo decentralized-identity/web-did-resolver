@@ -39,7 +39,7 @@ function get(url: string): Promise<any> {
 }
 
 export default function getResolver() {
-  return async function resolve(
+  async function resolve(
     did: string,
     parsed: ParsedDID,
   ): Promise<DIDDocument | null> {
@@ -72,4 +72,6 @@ export default function getResolver() {
 
     return data
   }
+
+  return { 'https': resolve }
 }

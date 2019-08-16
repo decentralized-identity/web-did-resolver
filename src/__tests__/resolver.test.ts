@@ -42,11 +42,11 @@ describe('https did resolver', () => {
     authentication: validDidDoc.authentication,
   })
 
-  let didResolver: Resolver, httpsDidResolver: DIDResolver
+  let didResolver: Resolver, httpsDidResolver: { [index: string]: DIDResolver }
 
   beforeAll(async () => {
     httpsDidResolver = getResolver()
-    didResolver = new Resolver({ https: httpsDidResolver })
+    didResolver = new Resolver(httpsDidResolver)
   })
   beforeEach(() => mock.setup())
   afterEach(() => mock.teardown())

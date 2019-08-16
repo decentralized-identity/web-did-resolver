@@ -53,8 +53,8 @@ The resolver presents a simple `resolver()` function that returns a ES6 Promise 
 import { Resolver } from 'did-resolver'
 import getResolver from 'https-did-resolver'
 
-const httpsResolver = getResolver
-const didResolver = new Resolver({https: httpsResolver})
+const httpsResolver = getResolver()
+const didResolver = new Resolver(httpsResolver)
 didResolver.resolve('did:https:example.com').then(doc => console.log)
 
 // You can also use ES7 async/await syntax
