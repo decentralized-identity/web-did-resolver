@@ -73,5 +73,5 @@ export default function getResolver() {
     return data
   }
 
-  return { 'https': resolve }
+  return { 'web': resolve }
 }
