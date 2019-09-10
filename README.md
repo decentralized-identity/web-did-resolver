@@ -6,7 +6,7 @@ type: "reference"
 source: "https://github.com/uport-project/web-did-resolver/blob/develop/README.md"
 ---
 
-# HTTPS DID Resolver
+# Web DID Resolver
 
 This library is intended to use domains accessed through https as [Decentralized Identifiers](https://w3c-ccg.github.io/did-spec/#decentralized-identifiers-dids) and retrieve an associated [DID Document](https://w3c-ccg.github.io/did-spec/#did-documents)
 
