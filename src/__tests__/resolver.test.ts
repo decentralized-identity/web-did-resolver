@@ -2,8 +2,8 @@ import { Resolver, DIDDocument, DIDResolver } from 'did-resolver'
 import getResolver from '../resolver'
 import mock from 'xhr-mock'
 
-describe('https did resolver', () => {
-  const did: string = 'did:https:example.com'
+describe('web did resolver', () => {
+  const did: string = 'did:web:example.com'
   const url: string = 'https://example.com/.well-known/did.json'
   const identity: string = '0x2Cc31912B2b0f3075A87b3640923D45A26cef3Ee'
   const validDidDoc: DIDDocument = {
@@ -32,7 +32,7 @@ describe('https did resolver', () => {
   })
   const wrongIdResponse: string = JSON.stringify({
     '@context': validDidDoc['@context'],
-    id: 'did:https:wrong.com',
+    id: 'did:web:wrong.com',
     publicKey: validDidDoc.publicKey,
     authentication: validDidDoc.authentication,
   })
@@ -43,11 +43,11 @@ describe('https did resolver', () => {
   })
 
   let didResolver: Resolver
-  let httpsDidResolver: { [index: string]: DIDResolver }
+  let webDidResolver: { [index: string]: DIDResolver }
 
   beforeAll(async () => {
-    httpsDidResolver = getResolver()
-    didResolver = new Resolver(httpsDidResolver)
+    webDidResolver = getResolver()
+    didResolver = new Resolver(webDidResolver)
   })
   beforeEach(() => mock.setup())
   afterEach(() => mock.teardown())
