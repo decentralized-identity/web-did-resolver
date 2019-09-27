@@ -15,31 +15,31 @@ describe('web did resolver', () => {
         id: `${did}#owner`,
         type: 'Secp256k1VerificationKey2018',
         owner: did,
-        ethereumAddress: identity,
-      },
+        ethereumAddress: identity
+      }
     ],
     authentication: [
       {
         type: 'Secp256k1SignatureAuthentication2018',
-        publicKey: `${did}#owner`,
-      },
-    ],
+        publicKey: `${did}#owner`
+      }
+    ]
   }
   const noContextResponse: object = {
     id: validResponse.id,
     publicKey: validResponse.publicKey,
-    authentication: validResponse.authentication,
+    authentication: validResponse.authentication
   }
   const wrongIdResponse: object = {
     '@context': validResponse['@context'],
     id: 'did:web:wrong.com',
     publicKey: validResponse.publicKey,
-    authentication: validResponse.authentication,
+    authentication: validResponse.authentication
   }
   const noPublicKeyResponse: object = {
     '@context': validResponse['@context'],
     id: validResponse.id,
-    authentication: validResponse.authentication,
+    authentication: validResponse.authentication
   }
 
   let didResolver: Resolver
@@ -52,7 +52,7 @@ describe('web did resolver', () => {
 
   it('resolves document', () => {
     mockedFetch.mockResolvedValueOnce({
-      json: () => validResponse,
+      json: () => validResponse
     })
     return expect(didResolver.resolve(did)).resolves.toEqual(validResponse)
   })
@@ -66,37 +66,37 @@ describe('web did resolver', () => {
     mockedFetch.mockResolvedValueOnce({
       json: () => {
         throw new Error('unable to parse json')
-      },
+      }
     })
     return expect(didResolver.resolve(did)).rejects.toThrowError(
-      /unable to parse json/,
+      /unable to parse json/
     )
   })
 
   it('fails if the did document is missing a context', () => {
     mockedFetch.mockResolvedValueOnce({
-      json: () => noContextResponse,
+      json: () => noContextResponse
     })
     return expect(didResolver.resolve(did)).rejects.toThrowError(
-      'DID document missing context',
+      'DID document missing context'
     )
   })
 
   it('fails if the did document id does not match', () => {
     mockedFetch.mockResolvedValueOnce({
-      json: () => wrongIdResponse,
+      json: () => wrongIdResponse
     })
     return expect(didResolver.resolve(did)).rejects.toThrowError(
-      'DID document id does not match requested did',
+      'DID document id does not match requested did'
     )
   })
 
   it('fails if the did document has no public keys', () => {
     mockedFetch.mockResolvedValueOnce({
-      json: () => noPublicKeyResponse,
+      json: () => noPublicKeyResponse
     })
     return expect(didResolver.resolve(did)).rejects.toThrowError(
-      'DID document has no public keys',
+      'DID document has no public keys'
     )
   })
 })

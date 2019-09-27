@@ -6,8 +6,8 @@ const DOC_PATH = '/.well-known/did.json'
 async function get(url: string): Promise<any> {
   const res = await fetch(url, {
     headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
+      'Access-Control-Allow-Origin': '*'
+    }
   })
   if (res.status >= 400) {
     throw new Error(`Bad response ${res.statusText}`)
@@ -18,7 +18,7 @@ async function get(url: string): Promise<any> {
 export default function getResolver() {
   async function resolve(
     did: string,
-    parsed: ParsedDID,
+    parsed: ParsedDID
   ): Promise<DIDDocument | null> {
     const url: string = `https://${parsed.id}${DOC_PATH}`
 
@@ -29,7 +29,7 @@ export default function getResolver() {
       throw new Error(
         `DID must resolve to a valid https URL containing a JSON document: ${
           error.message
-        }`,
+        }`
       )
     }
 
@@ -37,8 +37,9 @@ export default function getResolver() {
     if (!hasContext) throw new Error('DID document missing context')
 
     const docIdMatchesDid = data.id === did
-    if (!docIdMatchesDid)
+    if (!docIdMatchesDid) {
       throw new Error('DID document id does not match requested did')
+    }
 
     const docHasPublicKey =
       Array.isArray(data.publicKey) && data.publicKey.length > 0
