@@ -1,9 +1,8 @@
 import { Resolver, DIDResolver, DIDDocument } from 'did-resolver'
 import getResolver from '../resolver'
-import mock from 'xhr-mock'
-import axios from 'axios'
-jest.mock('axios')
-const mockedAxios = axios as jest.Mocked<typeof axios>
+import fetch from 'cross-fetch'
+jest.mock('cross-fetch')
+const mockedFetch = fetch as jest.Mock<typeof fetch>
 
 describe('web did resolver', () => {
   const did: string = 'did:web:example.com'
@@ -50,35 +49,52 @@ describe('web did resolver', () => {
     webDidResolver = getResolver()
     didResolver = new Resolver(webDidResolver)
   })
-  beforeEach(() => mock.setup())
-  afterEach(() => mock.teardown())
 
   it('resolves document', () => {
-    mockedAxios.get.mockResolvedValueOnce({ data: validResponse })
+    mockedFetch.mockResolvedValueOnce({
+      json: () => validResponse,
+    })
     return expect(didResolver.resolve(did)).resolves.toEqual(validResponse)
   })
 
   it('fails if the did is not a valid https url', () => {
-    mockedAxios.get.mockRejectedValueOnce({ response: { status: 404 } })
+    mockedFetch.mockRejectedValueOnce({ status: 404 })
     return expect(didResolver.resolve(did)).rejects.toThrow()
   })
 
+  it('fails if the did document is not valid json', () => {
+    mockedFetch.mockResolvedValueOnce({
+      json: () => {
+        throw new Error('unable to parse json')
+      },
+    })
+    return expect(didResolver.resolve(did)).rejects.toThrowError(
+      /unable to parse json/,
+    )
+  })
+
   it('fails if the did document is missing a context', () => {
-    mockedAxios.get.mockResolvedValueOnce({ data: noContextResponse })
+    mockedFetch.mockResolvedValueOnce({
+      json: () => noContextResponse,
+    })
     return expect(didResolver.resolve(did)).rejects.toThrowError(
       'DID document missing context',
     )
   })
 
   it('fails if the did document id does not match', () => {
-    mockedAxios.get.mockResolvedValueOnce({ data: wrongIdResponse })
+    mockedFetch.mockResolvedValueOnce({
+      json: () => wrongIdResponse,
+    })
     return expect(didResolver.resolve(did)).rejects.toThrowError(
       'DID document id does not match requested did',
     )
   })
 
   it('fails if the did document has no public keys', () => {
-    mockedAxios.get.mockResolvedValueOnce({ data: noPublicKeyResponse })
+    mockedFetch.mockResolvedValueOnce({
+      json: () => noPublicKeyResponse,
+    })
     return expect(didResolver.resolve(did)).rejects.toThrowError(
       'DID document has no public keys',
     )

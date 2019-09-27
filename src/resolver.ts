@@ -1,14 +1,18 @@
 import { ParsedDID, DIDDocument } from 'did-resolver'
-import axios from 'axios'
+import fetch from 'cross-fetch'
 
 const DOC_PATH = '/.well-known/did.json'
 
-function get(url: string): Promise<any> {
-  return axios.get(url, {
+async function get(url: string): Promise<any> {
+  const res = await fetch(url, {
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
   })
+  if (res.status >= 400) {
+    throw new Error(`Bad response ${res.statusText}`)
+  }
+  return res.json()
 }
 
 export default function getResolver() {
@@ -18,14 +22,16 @@ export default function getResolver() {
   ): Promise<DIDDocument | null> {
     const url: string = `https://${parsed.id}${DOC_PATH}`
 
-    let response: any = null
+    let data: any = null
     try {
-      response = await get(url)
+      data = await get(url)
     } catch (error) {
-      throw new Error(`DID must resolve to a valid https URL: ${error.message}`)
+      throw new Error(
+        `DID must resolve to a valid https URL containing a JSON document: ${
+          error.message
+        }`,
+      )
     }
-
-    const { data } = response
 
     const hasContext = data['@context'] === 'https://w3id.org/did/v1'
     if (!hasContext) throw new Error('DID document missing context')
