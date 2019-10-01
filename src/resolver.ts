@@ -1,70 +1,45 @@
 import { ParsedDID, DIDDocument } from 'did-resolver'
-
-declare global {
-  interface Window {
-    XMLHttpRequest: any
-  }
-}
-declare var require: any
+import fetch from 'cross-fetch'
 
 const DOC_PATH = '/.well-known/did.json'
 
-function get(url: string): Promise<any> {
-  return new Promise((resolve, reject) => {
-    // declare XMLHttpRequest in here so it can be mocked for tests
-    const XMLHttpRequest =
-      typeof window !== 'undefined'
-        ? window.XMLHttpRequest
-        : require('xmlhttprequest').XMLHttpRequest
-
-    const request = new XMLHttpRequest()
-    request.open('GET', url)
-    request.onreadystatechange = () => {
-      if (!request || request.readyState !== 4) return
-      if (request.status === 200) {
-        resolve(request.responseText)
-      } else {
-        reject(
-          new Error(
-            `Invalid http response status ${request.status} ${
-              request.responseText
-              }`.trim(),
-          ),
-        )
-      }
+async function get(url: string): Promise<any> {
+  const res = await fetch(url, {
+    headers: {
+      'Access-Control-Allow-Origin': '*'
     }
-    request.setRequestHeader('accept', 'application/json')
-    request.send()
   })
+  if (res.status >= 400) {
+    throw new Error(`Bad response ${res.statusText}`)
+  }
+  return res.json()
 }
 
 export default function getResolver() {
   async function resolve(
     did: string,
-    parsed: ParsedDID,
+    parsed: ParsedDID
   ): Promise<DIDDocument | null> {
     const url: string = `https://${parsed.id}${DOC_PATH}`
 
-    let response: any = null
-    try {
-      response = await get(url)
-    } catch (error) {
-      throw new Error(`DID must resolve to a valid https URL: ${error.message}`)
-    }
-
     let data: any = null
     try {
-      data = JSON.parse(response)
+      data = await get(url)
     } catch (error) {
-      throw new Error('DID must resolve to a JSON document')
+      throw new Error(
+        `DID must resolve to a valid https URL containing a JSON document: ${
+          error.message
+        }`
+      )
     }
 
     const hasContext = data['@context'] === 'https://w3id.org/did/v1'
     if (!hasContext) throw new Error('DID document missing context')
 
     const docIdMatchesDid = data.id === did
-    if (!docIdMatchesDid)
+    if (!docIdMatchesDid) {
       throw new Error('DID document id does not match requested did')
+    }
 
     const docHasPublicKey =
       Array.isArray(data.publicKey) && data.publicKey.length > 0
@@ -73,5 +48,5 @@ export default function getResolver() {
     return data
   }
 
-  return { 'web': resolve }
+  return { web: resolve }
 }

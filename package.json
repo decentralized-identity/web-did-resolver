@@ -1,23 +1,20 @@
 {
   "name": "web-did-resolver",
-  "version": "1.0.1",
+  "version": "1.0.2-dev.0",
   "description": "Resolve DID documents from an https domain",
   "main": "lib/resolver.js",
   "types": "lib/resolver.d.ts",
   "author": "Mike Xu <mike.xu@consensys.net>",
   "license": "Apache-2.0",
   "dependencies": {
-    "did-resolver": "1.0.0",
-    "xmlhttprequest": "^1.8.0"
+    "cross-fetch": "^3.0.4",
+    "did-resolver": "1.0.0"
   },
   "scripts": {
     "build": "tsc",
     "test": "jest",
     "dev": "tsc --watch",
     "format": "prettier"
-  },
-  "browser": {
-    "xmlhttprequest": false
   },
   "devDependencies": {
     "@types/jest": "^23.3.10",
@@ -28,8 +25,7 @@
     "tslint": "^5.12.0",
     "tslint-config-prettier": "^1.17.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.2.2",
-    "xhr-mock": "^2.4.1"
+    "typescript": "^3.2.2"
   },
   "jest": {
     "transform": {
