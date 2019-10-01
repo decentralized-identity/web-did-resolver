@@ -4,6 +4,6 @@
     "editor.tabSize": 2,
     "editor.detectIndentation": false,
     "[typescript]": {
-      "editor.formatOnSave": false
+      "editor.formatOnSave": true
     }
   }
