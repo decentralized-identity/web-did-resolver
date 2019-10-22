@@ -1,5 +1,5 @@
 import { Resolver, DIDResolver, DIDDocument } from 'did-resolver'
-import getResolver from '../resolver'
+import { getResolver } from '../resolver'
 import fetch from 'cross-fetch'
 jest.mock('cross-fetch')
 const mockedFetch = fetch as jest.Mock<typeof fetch>

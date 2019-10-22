@@ -1,5 +1,5 @@
 import { Resolver, DIDDocument, DIDResolver } from 'did-resolver'
-import getResolver from '../resolver'
+import { getResolver } from '../resolver'
 
 describe('web did resolver', () => {
   const did: string = 'did:web:uport.me'
