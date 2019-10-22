@@ -15,7 +15,7 @@ async function get(url: string): Promise<any> {
   return res.json()
 }
 
-export default function getResolver() {
+export function getResolver() {
   async function resolve(
     did: string,
     parsed: ParsedDID
