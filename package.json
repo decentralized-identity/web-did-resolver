@@ -6,24 +6,26 @@
   "types": "lib/resolver.d.ts",
   "author": "Mike Xu <mike.xu@consensys.net>",
   "license": "Apache-2.0",
+  "repository": "github:decentralized-identity/web-did-resolver",
   "dependencies": {
     "cross-fetch": "^3.0.4",
     "did-resolver": "1.0.0"
   },
   "scripts": {
     "build": "tsc",
-    "test": "jest",
+    "test": "jest --coverage",
     "dev": "tsc --watch",
-    "format": "prettier"
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json"
   },
   "devDependencies": {
     "@types/jest": "^23.3.10",
     "jest": "^25.0.0",
-    "prettier": "^1.15.3",
+    "prettier": "^1.18.2",
     "regenerator-runtime": "^0.12.1",
-    "ts-jest": "^23.10.5",
-    "tslint": "^5.12.0",
-    "tslint-config-prettier": "^1.17.0",
+    "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.2.2"
   },
@@ -45,5 +47,6 @@
       "!src/**/*.d.ts",
       "!**/node_modules/**"
     ]
-  }
+  },
+  "files": ["lib/**/*"]
 }
