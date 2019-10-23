@@ -18,10 +18,12 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
-    "prepublishOnly" : "npm test && npm run lint",
+    "prepublishOnly": "npm test && npm run lint",
     "release": "echo \"should run semantic-release, commit and push tags\""
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
     "@types/jest": "^23.3.10",
     "jest": "^25.0.0",
     "prettier": "^1.18.2",
@@ -51,5 +53,7 @@
       "!**/node_modules/**"
     ]
   },
-  "files": ["lib/**/*"]
+  "files": [
+    "lib/**/*"
+  ]
 }
