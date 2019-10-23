@@ -60,5 +60,5 @@
     "**/__tests__/*",
     "node_modules",
     "lib"
-  ],
+  ]
 }
