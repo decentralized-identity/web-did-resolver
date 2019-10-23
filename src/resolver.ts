@@ -27,9 +27,7 @@ export default function getResolver() {
       data = await get(url)
     } catch (error) {
       throw new Error(
-        `DID must resolve to a valid https URL containing a JSON document: ${
-          error.message
-        }`
+        `DID must resolve to a valid https URL containing a JSON document: ${error.message}`
       )
     }
 
