@@ -109,11 +109,9 @@ jobs:
       - run:
           name: Semantic release
           command: |
+            git config user.email "devops@uport.me"
+            git config user.name "uport-eng"
             npm run release
-#            export GITHUB_TOKEN=$GITHUB_TOKEN
-#            git config user.email "devops@uport.me"
-#            git config user.name "uport-eng"
-#            npx semantic-release@beta --debug
 
   deploy_to_npm:
     working_directory: ~/project
@@ -126,6 +124,4 @@ jobs:
           at: ~/project
       - run:
           name: publish to npm
-          command: |
-            npm set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-            npm publish --dry-run
+          command: npm publish

@@ -6,7 +6,7 @@
   "types": "lib/resolver.d.ts",
   "author": "Mike Xu <mike.xu@consensys.net>",
   "license": "Apache-2.0",
-  "repository": "github:decentralized-identity/web-did-resolver",
+  "repository": "git@github.com:decentralized-identity/web-did-resolver.git",
   "dependencies": {
     "cross-fetch": "^3.0.4",
     "did-resolver": "1.0.0"
@@ -19,15 +19,18 @@
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
-    "release": "echo \"should run semantic-release, commit and push tags\""
+    "release": "semantic-release --debug"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
+    "@semantic-release/changelog": "^3.0.4",
+    "@semantic-release/git": "^7.0.16",
     "@types/jest": "^23.3.10",
     "jest": "^25.0.0",
     "prettier": "^1.18.2",
     "regenerator-runtime": "^0.12.1",
+    "semantic-release": "^15.13.27",
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
