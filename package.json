@@ -18,7 +18,8 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
-    "prepublishOnly" : "npm test && npm run lint"
+    "prepublishOnly" : "npm test && npm run lint",
+    "release": "echo \"should run semantic-release, commit and push tags\""
   },
   "devDependencies": {
     "@types/jest": "^23.3.10",
