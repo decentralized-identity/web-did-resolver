@@ -3,7 +3,7 @@
 ###############################################################
 version: 2.1
 references:
-  restore_npm_cache: &restore_npm_cache
+  restore-npm-cache: &restore-npm-cache
     restore_cache:
       keys:
         # when lock file changes, use increasingly general patterns to restore cache
@@ -11,7 +11,7 @@ references:
         - npm-packages-v1-{{ checksum "package.json" }}
         - npm-packages-v1-
 
-  save_npm_cache: &save_npm_cache
+  save-npm-cache: &save-npm-cache
     save_cache:
       paths:
         - node_modules/
@@ -63,7 +63,7 @@ workflows:
               ignore: /.*/
       - deploy-to-npm:
           requires:
-            - verify_unit_tests
+            - verify-unit-tests
           filters:
             tags:
               only: /^v?((\d+\.))?(\d+\.)(\d+)-(dev|alpha|beta).*/
@@ -81,11 +81,11 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
-      - *restore_npm_cache
+      - *restore-npm-cache
       - run:
           name: Install node modules
           command: npm install
-      - *save_npm_cache
+      - *save-npm-cache
       - run:
           name: Run unit tests
           command: npm run test-with-coverage
