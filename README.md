@@ -8,9 +8,16 @@ source: "https://github.com/uport-project/web-did-resolver/blob/develop/README.m
 
 # Web DID Resolver
 
-This library is intended to use domains accessed through https as [Decentralized Identifiers](https://w3c-ccg.github.io/did-spec/#decentralized-identifiers-dids) and retrieve an associated [DID Document](https://w3c-ccg.github.io/did-spec/#did-documents)
+[![codecov](https://codecov.io/gh/decentralized-identity/web-did-resolver/branch/develop/graph/badge.svg)](https://codecov.io/gh/decentralized-identity/web-did-resolver)
+[![CircleCI](https://circleci.com/gh/decentralized-identity/web-did-resolver.svg?style=svg)](https://circleci.com/gh/decentralized-identity/web-did-resolver)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7936d0f6a035489386eb519016be4657)](https://www.codacy.com/manual/decentralized-identity/web-did-resolver?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=decentralized-identity/web-did-resolver&amp;utm_campaign=Badge_Grade)
 
-It supports the proposed [Decentralized Identifiers](https://w3c-ccg.github.io/did-spec/) spec from the [W3C Credentials Community Group](https://w3c-ccg.github.io).
+This library is intended to use domains accessed through https as 
+[Decentralized Identifiers](https://w3c-ccg.github.io/did-spec/#decentralized-identifiers-dids) 
+and retrieve an associated [DID Document](https://w3c-ccg.github.io/did-spec/#did-documents)
+
+It supports the proposed [Decentralized Identifiers](https://w3c-ccg.github.io/did-spec/) spec from
+the [W3C Credentials Community Group](https://w3c-ccg.github.io).
 
 It requires the `did-resolver` library, which is the primary interface for resolving DIDs.
 
@@ -22,9 +29,11 @@ eg: `https://example.com -> did:web:example.com`
 
 ## DID Document
 
-The DID resolver takes the domain and forms a [well-known URI](https://tools.ietf.org/html/rfc5785) to access the DID Document.
+The DID resolver takes the domain and forms a [well-known URI](https://tools.ietf.org/html/rfc5785)
+to access the DID Document.
 
-For a did `did:web:example.com`, the resolver will attempt to access the document at `https://example.com/.well-known/did.json`
+For a did `did:web:example.com`, the resolver will attempt to access the document at
+`https://example.com/.well-known/did.json`
 
 A minimal DID Document might contain the following information:
 
@@ -43,11 +52,14 @@ A minimal DID Document might contain the following information:
 }
 ```
 
-Note this uses the `Secp256k1VerificationKey2018` type and an `ethereumAddress` instead of a `publicKeyHex`, meaning that this DID is owned by an entity that controls the private key associated with that address.
+Note: this example uses the `Secp256k1VerificationKey2018` type and an `ethereumAddress` as a
+publicKey entry, signaling that DID is claiming to control the private key associated with that
+address.
 
 ## Resolving a DID document
 
-The resolver presents a simple `resolver()` function that returns a ES6 Promise returning the DID document.
+The resolver presents a simple `resolver()` function that returns a ES6 Promise returning the DID
+document.
 
 ```js
 import { Resolver } from 'did-resolver'
