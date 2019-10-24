@@ -37,24 +37,30 @@ For a did `did:web:example.com`, the resolver will attempt to access the documen
 
 A minimal DID Document might contain the following information:
 
-```js
+```json
 {
-  '@context': 'https://w3id.org/did/v1',
-  id: 'did:web:example.com',
-  publicKey: [{
-       id: 'did:web:example.com#owner',
-       type: 'Secp256k1VerificationKey2018',
-       owner: 'did:web:example.com',
-       ethereumAddress: '0xb9c5714089478a327f09197987f16f9e5d936e8a'}],
-  authentication: [{
-       type: 'Secp256k1SignatureAuthentication2018',
-       publicKey: 'did:web:example.com#owner'}]
+  "@context": "https://w3id.org/did/v1",
+  "id": "did:web:example.com",
+  "publicKey": [
+    {
+      "id": "did:web:example.com#owner",
+      "type": "Secp256k1VerificationKey2018",
+      "owner": "did:web:example.com",
+      "publicKeyHex": "04ab0102bcae6c7c3a90b01a3879d9518081bc06123038488db9cb109b082a77d97ea3373e3dfde0eccd9adbdce11d0302ea5c098dbb0b310234c8689501749274"
+    }
+  ],
+  "authentication": [
+    {
+      "type": "Secp256k1SignatureAuthentication2018",
+      "publicKey": "did:web:example.com#owner"
+    }
+  ]
 }
 ```
 
-Note: this example uses the `Secp256k1VerificationKey2018` type and an `ethereumAddress` as a
-publicKey entry, signaling that DID is claiming to control the private key associated with that
-address.
+Note: this example uses the `Secp256k1VerificationKey2018` type and an `publicKeyHex` as a
+publicKey entry, signaling that this DID is claiming to control the private key associated with that
+publicKey.
 
 ## Resolving a DID document
 
