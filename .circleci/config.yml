@@ -27,14 +27,14 @@ workflows:
   # Always run unit tests on master
   automatic-semantic-release:
     jobs:
-      - verify_unit_tests:
+      - verify-unit-tests:
           filters:
             branches:
               only:
                 - master
-      - github_release:
+      - run-semantic-release:
           requires:
-            - verify_unit_tests
+            - verify-unit-tests
           filters:
             branches:
               only:
@@ -47,7 +47,7 @@ workflows:
   # It verifies the branch, runs unit tests and coverage
   verify-test-build:
     jobs:
-      - verify_unit_tests:
+      - verify-unit-tests:
           filters:
             branches:
               ignore:
@@ -55,18 +55,18 @@ workflows:
 
   deploy-release-tag:
     jobs:
-      - verify_unit_tests:
+      - verify-unit-tests:
           filters:
             tags:
-              only: /^v?((\d+\.))?(\d+\.)(\d+)/
+              only: /^v?((\d+\.))?(\d+\.)(\d+)-(dev|alpha|beta).*/
             branches:
               ignore: /.*/
-      - deploy_to_npm:
+      - deploy-to-npm:
           requires:
             - verify_unit_tests
           filters:
             tags:
-              only: /^v?((\d+\.))?(\d+\.)(\d+)/
+              only: /^v?((\d+\.))?(\d+\.)(\d+)-(dev|alpha|beta).*/
             branches:
               ignore: /.*/
 
@@ -75,7 +75,7 @@ workflows:
 ###############################################################
 
 jobs:
-  verify_unit_tests:
+  verify-unit-tests:
     working_directory: ~/project
     docker:
       - image: circleci/node:10
@@ -97,7 +97,7 @@ jobs:
           paths:
             - node_modules
 
-  github_release:
+  run-semantic-release:
     working_directory: ~/project
     docker:
       - image: circleci/node:10
@@ -113,7 +113,7 @@ jobs:
             git config user.name "uport-eng"
             npm run release
 
-  deploy_to_npm:
+  deploy-to-npm:
     working_directory: ~/project
     docker:
         - image: circleci/node:10
