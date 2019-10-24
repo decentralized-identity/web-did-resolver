@@ -51,12 +51,20 @@ The resolver presents a simple `resolver()` function that returns a ES6 Promise 
 
 ```js
 import { Resolver } from 'did-resolver'
-import getResolver from 'web-did-resolver'
+import { getResolver } from 'web-did-resolver'
 
 const webResolver = getResolver()
-const didResolver = new Resolver(webResolver)
-didResolver.resolve('did:https:example.com').then(doc => console.log)
+
+const didResolver = new Resolver({
+    ...webResolver
+    //...you can flatten multiple resolver methods into the Resolver
+})
+
+didResolver.resolve('did:web:uport.me').then(doc => console.log(doc))
 
 // You can also use ES7 async/await syntax
-const doc = await didResolver.resolve('did:web:example.com')
+;(async () => {
+    const doc = await didResolver.resolve('did:web:uport.me')
+    console.log(doc)
+})();
 ```
