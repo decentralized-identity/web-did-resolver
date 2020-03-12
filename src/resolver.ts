@@ -31,9 +31,6 @@ export function getResolver() {
       )
     }
 
-    const hasContext = data['@context'] === 'https://w3id.org/did/v1'
-    if (!hasContext) throw new Error('DID document missing context')
-
     const docIdMatchesDid = data.id === did
     if (!docIdMatchesDid) {
       throw new Error('DID document id does not match requested did')
