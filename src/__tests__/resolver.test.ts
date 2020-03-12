@@ -73,15 +73,6 @@ describe('web did resolver', () => {
     )
   })
 
-  it('fails if the did document is missing a context', () => {
-    mockedFetch.mockResolvedValueOnce({
-      json: () => noContextResponse
-    })
-    return expect(didResolver.resolve(did)).rejects.toThrowError(
-      'DID document missing context'
-    )
-  })
-
   it('fails if the did document id does not match', () => {
     mockedFetch.mockResolvedValueOnce({
       json: () => wrongIdResponse
