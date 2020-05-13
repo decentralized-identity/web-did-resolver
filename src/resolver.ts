@@ -20,7 +20,11 @@ export function getResolver() {
     did: string,
     parsed: ParsedDID
   ): Promise<DIDDocument | null> {
-    const url: string = `https://${parsed.id}${DOC_PATH}`
+
+    let path = parsed.id + DOC_PATH
+    const id = parsed.id.split(':');
+    if (id.length > 1) path = id.join('/') + '/did.json';
+    const url: string = `https://${path}`
 
     let data: any = null
     try {
