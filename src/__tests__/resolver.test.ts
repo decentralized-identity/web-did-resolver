@@ -6,6 +6,7 @@ const mockedFetch = fetch as jest.Mock<typeof fetch>
 
 describe('web did resolver', () => {
   const did: string = 'did:web:example.com'
+  const didLong: string = 'did:web:example.com:user:alice'
   const identity: string = '0x2Cc31912B2b0f3075A87b3640923D45A26cef3Ee'
   const validResponse: DIDDocument = {
     '@context': 'https://w3id.org/did/v1',
@@ -25,6 +26,8 @@ describe('web did resolver', () => {
       }
     ]
   }
+
+  const validResponseLong: DIDDocument = JSON.parse(JSON.stringify(validResponse).replace(did, didLong))
   const noContextResponse: object = {
     id: validResponse.id,
     publicKey: validResponse.publicKey,
@@ -56,6 +59,14 @@ describe('web did resolver', () => {
     })
     return expect(didResolver.resolve(did)).resolves.toEqual(validResponse)
   })
+
+  it('resolves document with long did', () => {
+    mockedFetch.mockResolvedValueOnce({
+      json: () => validResponseLong
+    })
+    return expect(didResolver.resolve(didLong)).resolves.toEqual(validResponseLong)
+  })
+
 
   it('fails if the did is not a valid https url', () => {
     mockedFetch.mockRejectedValueOnce({ status: 404 })
