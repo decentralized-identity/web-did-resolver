@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/decentralized-identity/web-did-resolver/compare/1.2.1...1.3.0) (2020-05-13)
+
+
+### Features
+
+* support for path in the did ([904d88c](https://github.com/decentralized-identity/web-did-resolver/commit/904d88c0babd9bc787390d8bace12435fc391c74)), closes [#32](https://github.com/decentralized-identity/web-did-resolver/issues/32) [#33](https://github.com/decentralized-identity/web-did-resolver/issues/33)
+
 ## [1.2.1](https://github.com/decentralized-identity/web-did-resolver/compare/1.2.0...1.2.1) (2020-03-12)
 
 
