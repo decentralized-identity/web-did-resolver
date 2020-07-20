@@ -23,21 +23,21 @@
     "release": "semantic-release --debug"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.2.0",
-    "@commitlint/config-conventional": "^8.2.0",
-    "@semantic-release/changelog": "^3.0.4",
-    "@semantic-release/git": "^7.0.16",
-    "@types/jest": "^23.3.10",
-    "codecov": "^3.6.1",
-    "jest": "^25.0.0",
-    "prettier": "^1.18.2",
-    "regenerator-runtime": "^0.12.1",
-    "semantic-release": "^15.13.27",
-    "ts-jest": "^24.1.0",
-    "tslint": "^5.20.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.2.2"
+    "@commitlint/cli": "8.2.0",
+    "@commitlint/config-conventional": "8.2.0",
+    "@semantic-release/changelog": "3.0.4",
+    "@semantic-release/git": "7.0.16",
+    "@types/jest": "23.3.10",
+    "codecov": "3.6.5",
+    "jest": "25.0.0",
+    "prettier": "1.18.2",
+    "regenerator-runtime": "0.12.1",
+    "semantic-release": "15.13.27",
+    "ts-jest": "24.1.0",
+    "tslint": "5.20.0",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-eslint-rules": "5.4.0",
+    "typescript": "3.2.2"
   },
   "jest": {
     "transform": {
