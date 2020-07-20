@@ -9,7 +9,7 @@
   "repository": "git@github.com:decentralized-identity/web-did-resolver.git",
   "dependencies": {
     "cross-fetch": "^3.0.4",
-    "did-resolver": "1.0.0"
+    "did-resolver": "1.1.0"
   },
   "scripts": {
     "build": "tsc",
