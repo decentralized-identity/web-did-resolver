@@ -33,7 +33,7 @@
     "prettier": "1.19.1",
     "regenerator-runtime": "0.13.5",
     "semantic-release": "15.13.27",
-    "ts-jest": "24.1.0",
+    "ts-jest": "24.3.0",
     "tslint": "5.20.0",
     "tslint-config-prettier": "1.18.0",
     "tslint-eslint-rules": "5.4.0",
