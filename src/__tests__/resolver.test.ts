@@ -2,7 +2,8 @@ import { Resolver, DIDResolver, DIDDocument } from 'did-resolver'
 import { getResolver } from '../resolver'
 import fetch from 'cross-fetch'
 jest.mock('cross-fetch')
-const mockedFetch = fetch as jest.Mock<typeof fetch>
+import { mocked } from 'ts-jest/utils'
+const mockedFetch = mocked(fetch, true)
 
 describe('web did resolver', () => {
   const did: string = 'did:web:example.com'
@@ -27,7 +28,9 @@ describe('web did resolver', () => {
     ]
   }
 
-  const validResponseLong: DIDDocument = JSON.parse(JSON.stringify(validResponse).replace(did, didLong))
+  const validResponseLong: DIDDocument = JSON.parse(
+    JSON.stringify(validResponse).replace(did, didLong)
+  )
   const noContextResponse: object = {
     id: validResponse.id,
     publicKey: validResponse.publicKey,
@@ -55,18 +58,19 @@ describe('web did resolver', () => {
 
   it('resolves document', () => {
     mockedFetch.mockResolvedValueOnce({
-      json: () => validResponse
-    })
+      json: () => Promise.resolve(validResponse)
+    } as Response)
     return expect(didResolver.resolve(did)).resolves.toEqual(validResponse)
   })
 
   it('resolves document with long did', () => {
     mockedFetch.mockResolvedValueOnce({
-      json: () => validResponseLong
-    })
-    return expect(didResolver.resolve(didLong)).resolves.toEqual(validResponseLong)
+      json: () => Promise.resolve(validResponseLong)
+    } as Response)
+    return expect(didResolver.resolve(didLong)).resolves.toEqual(
+      validResponseLong
+    )
   })
-
 
   it('fails if the did is not a valid https url', () => {
     mockedFetch.mockRejectedValueOnce({ status: 404 })
@@ -75,10 +79,8 @@ describe('web did resolver', () => {
 
   it('fails if the did document is not valid json', () => {
     mockedFetch.mockResolvedValueOnce({
-      json: () => {
-        throw new Error('unable to parse json')
-      }
-    })
+      json: () => Promise.reject(new Error('unable to parse json'))
+    } as Response)
     return expect(didResolver.resolve(did)).rejects.toThrowError(
       /unable to parse json/
     )
@@ -86,8 +88,8 @@ describe('web did resolver', () => {
 
   it('fails if the did document id does not match', () => {
     mockedFetch.mockResolvedValueOnce({
-      json: () => wrongIdResponse
-    })
+      json: () => Promise.resolve(wrongIdResponse)
+    } as Response)
     return expect(didResolver.resolve(did)).rejects.toThrowError(
       'DID document id does not match requested did'
     )
@@ -95,8 +97,8 @@ describe('web did resolver', () => {
 
   it('fails if the did document has no public keys', () => {
     mockedFetch.mockResolvedValueOnce({
-      json: () => noPublicKeyResponse
-    })
+      json: () => Promise.resolve(noPublicKeyResponse)
+    } as Response)
     return expect(didResolver.resolve(did)).rejects.toThrowError(
       'DID document has no public keys'
     )
