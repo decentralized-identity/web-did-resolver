@@ -30,7 +30,7 @@
     "@types/jest": "23.3.10",
     "codecov": "3.7.1",
     "jest": "26.1.0",
-    "prettier": "1.19.1",
+    "prettier": "2.0.5",
     "regenerator-runtime": "0.13.5",
     "semantic-release": "15.13.27",
     "ts-jest": "26.1.3",
