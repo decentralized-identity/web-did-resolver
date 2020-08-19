@@ -25,7 +25,7 @@ describe('web did resolver', () => {
       publicKey: [
         {
           id: 'did:web:uport.me#owner',
-          owner: 'did:web:uport.me',
+          controller: 'did:web:uport.me',
           publicKeyHex:
             '042b0af9b3ae6c7c3a90b01a3879d9518081bc0dcdf038488db9cb109b082a77d97ea3373e3dfde0eccd9adbdce11d0302ea5c098dbb0b310234c86895c8641622',
           type: 'Secp256k1VerificationKey2018'

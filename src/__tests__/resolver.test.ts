@@ -16,7 +16,7 @@ describe('web did resolver', () => {
       {
         id: `${did}#owner`,
         type: 'Secp256k1VerificationKey2018',
-        owner: did,
+        controller: did,
         ethereumAddress: identity
       }
     ],
