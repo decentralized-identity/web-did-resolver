@@ -5,32 +5,32 @@ import { getResolver } from 'web-did-resolver'
 
 const webDidResolver = getResolver()
 const didResolver = new Resolver(webDidResolver)
-function App () {
+function App() {
   const [did, setDid] = useState('did:web:identity.foundation')
-  const [resolved, setResolved] = useState();
+  const [resolved, setResolved] = useState()
   return (
-    <div className='App'>
+    <div className="App">
       <label>DID:</label>
       <input
-        type='text'
+        type="text"
         value={did}
-        onChange={event => {
+        onChange={(event) => {
           setDid(event.target.value)
         }}
       />
       <button
         className="App-button"
-        type='submit'
+        type="submit"
         onClick={() => {
           didResolver
             .resolve(did)
             .then((res) => {
-              console.log('resolved data', res);
-              setResolved(true);
+              console.log('resolved data', res)
+              setResolved(true)
             })
             .catch((err) => {
-              console.error('failed to resolve', err);
-              setResolved(false);
+              console.error('failed to resolve', err)
+              setResolved(false)
             })
         }}
       >
