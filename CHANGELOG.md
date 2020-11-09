@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/decentralized-identity/web-did-resolver/compare/1.3.3...1.3.4) (2020-11-09)
+
+
+### Bug Fixes
+
+* CORS bug ([#88](https://github.com/decentralized-identity/web-did-resolver/issues/88)) ([2a5b5d1](https://github.com/decentralized-identity/web-did-resolver/commit/2a5b5d15da51eec74f3fb2a0b6c8ebbbf3a72392))
+
 ## [1.3.3](https://github.com/decentralized-identity/web-did-resolver/compare/1.3.2...1.3.3) (2020-08-19)
 
 
