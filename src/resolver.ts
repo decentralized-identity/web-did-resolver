@@ -1,14 +1,10 @@
-import { ParsedDID, DIDDocument } from 'did-resolver'
 import fetch from 'cross-fetch'
+import { DIDDocument, ParsedDID } from 'did-resolver'
 
 const DOC_PATH = '/.well-known/did.json'
 
 async function get(url: string): Promise<any> {
-  const res = await fetch(url, {
-    headers: {
-      'Access-Control-Allow-Origin': '*'
-    }
-  })
+  const res = await fetch(url, { mode: 'cors' })
   if (res.status >= 400) {
     throw new Error(`Bad response ${res.statusText}`)
   }
