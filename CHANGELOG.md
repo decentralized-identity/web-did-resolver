@@ -1,3 +1,10 @@
+## [1.3.5](https://github.com/decentralized-identity/web-did-resolver/compare/1.3.4...1.3.5) (2020-11-09)
+
+
+### Bug Fixes
+
+* **deps:** pin dependencies ([#89](https://github.com/decentralized-identity/web-did-resolver/issues/89)) ([926eb1f](https://github.com/decentralized-identity/web-did-resolver/commit/926eb1f037887cb1f409723e8ef3177d5cd41360))
+
 ## [1.3.4](https://github.com/decentralized-identity/web-did-resolver/compare/1.3.3...1.3.4) (2020-11-09)
 
 
