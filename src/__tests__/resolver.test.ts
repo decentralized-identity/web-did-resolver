@@ -10,22 +10,17 @@ describe('web did resolver', () => {
   const didLong: string = 'did:web:example.com:user:alice'
   const identity: string = '0x2Cc31912B2b0f3075A87b3640923D45A26cef3Ee'
   const validResponse: DIDDocument = {
-    '@context': 'https://w3id.org/did/v1',
+    '@context': 'https://www.w3.org/ns/did/v1',
     id: did,
     publicKey: [
       {
         id: `${did}#owner`,
-        type: 'Secp256k1VerificationKey2018',
+        type: 'EcdsaSecp256k1RecoveryMethod2020',
         controller: did,
         ethereumAddress: identity
       }
     ],
-    authentication: [
-      {
-        type: 'Secp256k1SignatureAuthentication2018',
-        publicKey: `${did}#owner`
-      }
-    ]
+    authentication: [`${did}#owner`]
   }
 
   const validResponseLong: DIDDocument = JSON.parse(
@@ -42,11 +37,6 @@ describe('web did resolver', () => {
     publicKey: validResponse.publicKey,
     authentication: validResponse.authentication
   }
-  const noPublicKeyResponse: object = {
-    '@context': validResponse['@context'],
-    id: validResponse.id,
-    authentication: validResponse.authentication
-  }
 
   let didResolver: Resolver
   let webDidResolver: { [index: string]: DIDResolver }
@@ -56,51 +46,65 @@ describe('web did resolver', () => {
     didResolver = new Resolver(webDidResolver)
   })
 
-  it('resolves document', () => {
+  it('resolves document', async () => {
+    expect.assertions(2)
     mockedFetch.mockResolvedValueOnce({
       json: () => Promise.resolve(validResponse)
     } as Response)
-    return expect(didResolver.resolve(did)).resolves.toEqual(validResponse)
+    const result = await didResolver.resolve(did)
+    expect(result.didDocument).toEqual(validResponse)
+    expect(result.didResolutionMetadata.contentType).toEqual(
+      'application/did+ld+json'
+    )
   })
 
-  it('resolves document with long did', () => {
+  it('resolves document with long did', async () => {
+    expect.assertions(1)
     mockedFetch.mockResolvedValueOnce({
       json: () => Promise.resolve(validResponseLong)
     } as Response)
-    return expect(didResolver.resolve(didLong)).resolves.toEqual(
-      validResponseLong
-    )
+    const result = await didResolver.resolve(did)
+    expect(result.didDocument).toEqual(validResponseLong)
   })
 
-  it('fails if the did is not a valid https url', () => {
+  it('fails if the did is not a valid https url', async () => {
+    expect.assertions(1)
     mockedFetch.mockRejectedValueOnce({ status: 404 })
-    return expect(didResolver.resolve(did)).rejects.toThrow()
+    const result = await didResolver.resolve(did)
+    expect(result.didResolutionMetadata.error).toEqual('notFound')
   })
 
-  it('fails if the did document is not valid json', () => {
+  it('fails if the did document is not valid json', async () => {
+    expect.assertions(2)
     mockedFetch.mockResolvedValueOnce({
       json: () => Promise.reject(new Error('unable to parse json'))
     } as Response)
-    return expect(didResolver.resolve(did)).rejects.toThrowError(
-      /unable to parse json/
-    )
+    const result = await didResolver.resolve(did)
+    expect(result.didResolutionMetadata.error).toEqual('notFound')
+    expect(result.didResolutionMetadata.message).toMatch(/unable to parse json/)
   })
 
-  it('fails if the did document id does not match', () => {
+  it('fails if the did document id does not match', async () => {
+    expect.assertions(2)
     mockedFetch.mockResolvedValueOnce({
       json: () => Promise.resolve(wrongIdResponse)
     } as Response)
-    return expect(didResolver.resolve(did)).rejects.toThrowError(
-      'DID document id does not match requested did'
+    const result = await didResolver.resolve(did)
+    expect(result.didResolutionMetadata.error).toEqual('notFound')
+    expect(result.didResolutionMetadata.message).toMatch(
+      /DID document id does not match requested did/
     )
   })
 
-  it('fails if the did document has no public keys', () => {
+  it('returns correct contentType without @context', async () => {
+    expect.assertions(1)
     mockedFetch.mockResolvedValueOnce({
-      json: () => Promise.resolve(noPublicKeyResponse)
+      json: () => Promise.resolve(noContextResponse)
     } as Response)
-    return expect(didResolver.resolve(did)).rejects.toThrowError(
-      'DID document has no public keys'
+    const result = await didResolver.resolve(did)
+
+    expect(result.didResolutionMetadata.contentType).toEqual(
+      'application/did+json'
     )
   })
 })
