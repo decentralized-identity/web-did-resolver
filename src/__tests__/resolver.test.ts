@@ -8,6 +8,8 @@ const mockedFetch = mocked(fetch, true)
 describe('web did resolver', () => {
   const did: string = 'did:web:example.com'
   const didLong: string = 'did:web:example.com:user:alice'
+  const didWithPort: string = 'did:web:localhost%3A8443'
+  const didWithEncodedPath: string = 'did:web:example.com:path:some%2Bsubpath'
   const identity: string = '0x2Cc31912B2b0f3075A87b3640923D45A26cef3Ee'
   const validResponse: DIDDocument = {
     '@context': 'https://www.w3.org/ns/did/v1',
@@ -23,27 +25,14 @@ describe('web did resolver', () => {
     authentication: [`${did}#owner`]
   }
 
-  const validResponseLong: DIDDocument = JSON.parse(
-    JSON.stringify(validResponse).replace(did, didLong)
-  )
-  const noContextResponse: object = {
-    id: validResponse.id,
-    publicKey: validResponse.publicKey,
-    authentication: validResponse.authentication
-  }
-  const wrongIdResponse: object = {
-    '@context': validResponse['@context'],
-    id: 'did:web:wrong.com',
-    publicKey: validResponse.publicKey,
-    authentication: validResponse.authentication
-  }
-
   let didResolver: Resolver
-  let webDidResolver: { [index: string]: DIDResolver }
 
   beforeAll(async () => {
-    webDidResolver = getResolver()
-    didResolver = new Resolver(webDidResolver)
+    didResolver = new Resolver(getResolver())
+  })
+
+  beforeEach(() => {
+    mockedFetch.mockClear()
   })
 
   it('resolves document', async () => {
@@ -60,10 +49,13 @@ describe('web did resolver', () => {
 
   it('resolves document with long did', async () => {
     expect.assertions(1)
+    const validResponseLong: DIDDocument = JSON.parse(
+      JSON.stringify(validResponse).replace(did, didLong)
+    )
     mockedFetch.mockResolvedValueOnce({
       json: () => Promise.resolve(validResponseLong)
     } as Response)
-    const result = await didResolver.resolve(did)
+    const result = await didResolver.resolve(didLong)
     expect(result.didDocument).toEqual(validResponseLong)
   })
 
@@ -84,8 +76,24 @@ describe('web did resolver', () => {
     expect(result.didResolutionMetadata.message).toMatch(/unable to parse json/)
   })
 
+  it('fails if the web server produces an error', async () => {
+    expect.assertions(2)
+    mockedFetch.mockResolvedValueOnce({
+      status: 400
+    } as Response)
+    const result = await didResolver.resolve(did)
+    expect(result.didResolutionMetadata.error).toEqual('notFound')
+    expect(result.didResolutionMetadata.message).toMatch(
+      /DID must resolve to a valid https URL containing a JSON document: Error: Bad response/
+    )
+  })
+
   it('fails if the did document id does not match', async () => {
     expect.assertions(2)
+    const wrongIdResponse: DIDDocument = {
+      ...validResponse,
+      id: 'did:web:wrong.com'
+    }
     mockedFetch.mockResolvedValueOnce({
       json: () => Promise.resolve(wrongIdResponse)
     } as Response)
@@ -98,13 +106,52 @@ describe('web did resolver', () => {
 
   it('returns correct contentType without @context', async () => {
     expect.assertions(1)
+    const noContextResponse: DIDDocument = {
+      ...validResponse
+    }
+    delete noContextResponse['@context']
     mockedFetch.mockResolvedValueOnce({
       json: () => Promise.resolve(noContextResponse)
     } as Response)
     const result = await didResolver.resolve(did)
-
     expect(result.didResolutionMetadata.contentType).toEqual(
       'application/did+json'
+    )
+  })
+
+  it('resolves doc with port did', async () => {
+    expect.assertions(2)
+    const validResponsePort: DIDDocument = JSON.parse(
+      JSON.stringify(validResponse).replace(did, didWithPort)
+    )
+    mockedFetch.mockResolvedValueOnce({
+      json: () => Promise.resolve(validResponsePort)
+    } as Response)
+    const result = await didResolver.resolve(didWithPort)
+    expect(result.didDocument).toEqual(validResponsePort)
+    expect(mockedFetch).toHaveBeenCalledWith(
+      'https://localhost:8443/.well-known/did.json',
+      {
+        mode: 'cors'
+      }
+    )
+  })
+
+  it('resolves doc with URI encoded path components', async () => {
+    expect.assertions(2)
+    const validResponseEncodedPath: DIDDocument = JSON.parse(
+      JSON.stringify(validResponse).replace(did, didWithEncodedPath)
+    )
+    mockedFetch.mockResolvedValueOnce({
+      json: () => Promise.resolve(validResponseEncodedPath)
+    } as Response)
+    const result = await didResolver.resolve(didWithEncodedPath)
+    expect(result.didDocument).toEqual(validResponseEncodedPath)
+    expect(mockedFetch).toHaveBeenCalledWith(
+      'https://example.com/path/some+subpath/did.json',
+      {
+        mode: 'cors'
+      }
     )
   })
 })

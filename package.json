@@ -9,7 +9,7 @@
   "repository": "git@github.com:decentralized-identity/web-did-resolver.git",
   "dependencies": {
     "cross-fetch": "^3.0.6",
-    "did-resolver": "^3.0.1"
+    "did-resolver": "^3.0.2"
   },
   "scripts": {
     "build": "tsc",
@@ -51,7 +51,6 @@
       "jsx",
       "json"
     ],
-    "clearMocks": true,
     "coverageDirectory": "./coverage/",
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
