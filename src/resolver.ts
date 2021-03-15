@@ -45,7 +45,7 @@ export function getResolver(): Record<string, DIDResolver> {
       const docIdMatchesDid = didDocument?.id === did
       if (!docIdMatchesDid) {
         err = 'DID document id does not match requested did'
-        break
+        // break // uncomment this when adding more checks
       }
     } while (false)
 
