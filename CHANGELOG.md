@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.0...2.0.1) (2021-03-15)
+
+
+### Bug Fixes
+
+* **deps:** update dependency did-resolver to v3 ([#94](https://github.com/decentralized-identity/web-did-resolver/issues/94)) ([18d1a1d](https://github.com/decentralized-identity/web-did-resolver/commit/18d1a1d36ac84de8f128062aa652f7714122e1d3))
+
 # [2.0.0](https://github.com/decentralized-identity/web-did-resolver/compare/1.3.5...2.0.0) (2021-03-15)
 
 
