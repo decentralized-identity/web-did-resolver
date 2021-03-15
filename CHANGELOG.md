@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/decentralized-identity/web-did-resolver/compare/1.3.5...2.0.0) (2021-03-15)
+
+
+### Features
+
+* update to latest did spec ([#92](https://github.com/decentralized-identity/web-did-resolver/issues/92)) ([4779436](https://github.com/decentralized-identity/web-did-resolver/commit/47794360ad7a00cc87958b8c94dc4c1d13354917)), closes [#91](https://github.com/decentralized-identity/web-did-resolver/issues/91)
+
+
+### BREAKING CHANGES
+
+* Resolver now returns a `DIDResolutionResult` that wraps a DIDDocument. No errors are thrown, instead returned as `didResolutionMetadata.error/message`
+
 ## [1.3.5](https://github.com/decentralized-identity/web-did-resolver/compare/1.3.4...1.3.5) (2020-11-09)
 
 
