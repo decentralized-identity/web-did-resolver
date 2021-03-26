@@ -1,4 +1,4 @@
-import { Resolver, DIDResolver, DIDDocument } from 'did-resolver'
+import { Resolver, DIDDocument, Resolvable } from 'did-resolver'
 import { getResolver } from '../resolver'
 import fetch from 'cross-fetch'
 jest.mock('cross-fetch')
@@ -25,7 +25,7 @@ describe('web did resolver', () => {
     authentication: [`${did}#owner`]
   }
 
-  let didResolver: Resolver
+  let didResolver: Resolvable
 
   beforeAll(async () => {
     didResolver = new Resolver(getResolver())
