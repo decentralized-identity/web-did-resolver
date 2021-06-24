@@ -1,22 +1,14 @@
----
-title: "Web DID Resolver"
-index: 0
-category: "web-did-resolver"
-type: "reference"
-source: "https://github.com/uport-project/web-did-resolver/blob/develop/README.md"
----
+[![npm](https://img.shields.io/npm/dt/web-did-resolver.svg)](https://www.npmjs.com/package/web-did-resolver)
+[![npm](https://img.shields.io/npm/v/web-did-resolver.svg)](https://www.npmjs.com/package/web-did-resolver)
+[![codecov](https://codecov.io/gh/decentralized-identity/web-did-resolver/branch/develop/graph/badge.svg)](https://codecov.io/gh/decentralized-identity/web-did-resolver)
 
 # Web DID Resolver
 
-[![codecov](https://codecov.io/gh/decentralized-identity/web-did-resolver/branch/develop/graph/badge.svg)](https://codecov.io/gh/decentralized-identity/web-did-resolver)
-[![CircleCI](https://circleci.com/gh/decentralized-identity/web-did-resolver.svg?style=svg)](https://circleci.com/gh/decentralized-identity/web-did-resolver)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7936d0f6a035489386eb519016be4657)](https://www.codacy.com/manual/decentralized-identity/web-did-resolver?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=decentralized-identity/web-did-resolver&amp;utm_campaign=Badge_Grade)
+This library is intended to represent domains accessed through https as
+[Decentralized Identifiers](https://w3c.github.io/did-core/#identifier)
+and retrieve an associated [DID Document](https://w3c.github.io/did-core/#did-document-properties)
 
-This library is intended to use domains accessed through https as 
-[Decentralized Identifiers](https://w3c-ccg.github.io/did-spec/#decentralized-identifiers-dids) 
-and retrieve an associated [DID Document](https://w3c-ccg.github.io/did-spec/#did-documents)
-
-It supports the proposed [Decentralized Identifiers](https://w3c-ccg.github.io/did-spec/) spec from
+It supports the proposed [`did:web` method spec](https://w3c-ccg.github.io/did-method-web/) from
 the [W3C Credentials Community Group](https://w3c-ccg.github.io).
 
 It requires the `did-resolver` library, which is the primary interface for resolving DIDs.
@@ -58,14 +50,12 @@ A minimal DID Document might contain the following information:
 }
 ```
 
-Note: this example uses the `Secp256k1VerificationKey2018` type and an `publicKeyHex` as a
-publicKey entry, signaling that this DID is claiming to control the private key associated with that
-publicKey.
+Note: this example uses the `Secp256k1VerificationKey2018` type and an `publicKeyHex` as a publicKey entry, signaling
+that this DID is claiming to control the private key associated with that publicKey.
 
 ## Resolving a DID document
 
-The resolver presents a simple `resolver()` function that returns a ES6 Promise returning the DID
-document.
+The resolver presents a simple `resolver()` function that returns a ES6 Promise returning the DID document.
 
 ```js
 import { Resolver } from 'did-resolver'
