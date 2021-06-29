@@ -2,63 +2,73 @@
   "name": "web-did-resolver",
   "version": "2.0.4",
   "description": "Resolve DID documents from an https domain",
+  "source": "src/resolver.ts",
   "main": "lib/resolver.js",
+  "module": "lib/resolver.module.js",
   "types": "lib/resolver.d.ts",
-  "author": "Mike Xu <mike.xu@consensys.net>",
+  "files": [
+    "lib",
+    "src",
+    "LICENSE"
+  ],
+  "author": "Mike Xu",
+  "contributors": [
+    "Mircea Nistor <mircea.nistor@mesh.xyz>"
+  ],
   "license": "Apache-2.0",
-  "repository": "git@github.com:decentralized-identity/web-did-resolver.git",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:decentralized-identity/web-did-resolver.git"
+  },
   "dependencies": {
     "cross-fetch": "^3.1.2",
     "did-resolver": "^3.1.0"
   },
   "scripts": {
-    "build": "tsc",
     "test": "jest",
-    "test-with-coverage": "jest --coverage && codecov",
-    "dev": "tsc --watch",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "tslint -p tsconfig.json",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
+    "test:ci": "jest --coverage && codecov",
+    "build:js": "microbundle --compress=false",
+    "build": "yarn lint && yarn build:js && yarn test",
+    "format": "prettier --write \"src/**/*.[jt]s\"",
+    "lint": "eslint --ignore-pattern \"src/**/*.test.[jt]s\" \"src/**/*.[jt]s\"",
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn test:ci && yarn format && yarn lint",
     "release": "semantic-release --debug"
   },
+  "jest": {
+    "clearMocks": true,
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/**/*.d.ts",
+      "!**/node_modules/**",
+      "!**/__tests__/**"
+    ],
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.test.[jt]s"
+    ]
+  },
   "devDependencies": {
-    "@commitlint/cli": "12.1.4",
-    "@commitlint/config-conventional": "12.1.4",
+    "@babel/core": "7.14.6",
+    "@babel/preset-env": "7.14.7",
+    "@babel/preset-typescript": "7.14.5",
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/git": "9.0.0",
     "@types/jest": "26.0.23",
+    "@typescript-eslint/eslint-plugin": "4.28.0",
+    "@typescript-eslint/parser": "4.28.0",
+    "babel-jest": "27.0.5",
     "codecov": "3.8.2",
+    "eslint": "7.29.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-jest": "24.3.6",
+    "eslint-plugin-prettier": "3.4.0",
     "jest": "27.0.5",
+    "microbundle": "0.13.3",
     "prettier": "2.3.1",
     "regenerator-runtime": "0.13.7",
     "semantic-release": "17.4.4",
     "ts-jest": "27.0.3",
-    "tslint": "6.1.3",
-    "tslint-config-prettier": "1.18.0",
-    "tslint-eslint-rules": "5.4.0",
     "typescript": "4.3.4"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ],
-    "coverageDirectory": "./coverage/",
-    "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}",
-      "!src/**/*.d.ts",
-      "!**/node_modules/**"
-    ]
-  },
-  "files": [
-    "lib/**/*"
-  ]
+  }
 }
