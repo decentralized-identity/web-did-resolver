@@ -1,3 +1,10 @@
+## [2.0.11](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.10...2.0.11) (2021-12-15)
+
+
+### Bug Fixes
+
+* **deps:** update dependency react-scripts to v5 ([bbc4b35](https://github.com/decentralized-identity/web-did-resolver/commit/bbc4b351ca349b17373275091653f853031f0634))
+
 ## [2.0.10](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.9...2.0.10) (2021-12-10)
 
 
