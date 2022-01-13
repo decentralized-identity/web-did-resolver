@@ -2,8 +2,7 @@ import { Resolver, DIDDocument, Resolvable } from 'did-resolver'
 import { getResolver } from '../resolver'
 import fetch from 'cross-fetch'
 jest.mock('cross-fetch')
-import { mocked } from 'ts-jest/utils'
-const mockedFetch = mocked(fetch, true)
+const mockedFetch = jest.mocked(fetch, true)
 
 describe('web did resolver', () => {
   const did: string = 'did:web:example.com'
