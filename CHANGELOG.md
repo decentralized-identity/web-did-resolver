@@ -1,3 +1,10 @@
+## [2.0.12](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.11...2.0.12) (2022-01-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependencies, remove ts-jest ([789ec69](https://github.com/decentralized-identity/web-did-resolver/commit/789ec6926d57e1d42afebe592d8956dec0513789))
+
 ## [2.0.11](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.10...2.0.11) (2021-12-15)
 
 
