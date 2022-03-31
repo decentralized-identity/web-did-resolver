@@ -1,3 +1,10 @@
+## [2.0.14](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.13...2.0.14) (2022-03-31)
+
+
+### Bug Fixes
+
+* **deps:** update react monorepo to v18 ([8f21c88](https://github.com/decentralized-identity/web-did-resolver/commit/8f21c881263c513d98db14670837f980ab1d4e49))
+
 ## [2.0.13](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.12...2.0.13) (2022-03-30)
 
 
