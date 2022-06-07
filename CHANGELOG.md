@@ -1,3 +1,10 @@
+## [2.0.18](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.17...2.0.18) (2022-06-07)
+
+
+### Bug Fixes
+
+* **deps:** groom the build scripts and dependencies ([#120](https://github.com/decentralized-identity/web-did-resolver/issues/120)) ([757f6ec](https://github.com/decentralized-identity/web-did-resolver/commit/757f6ec1c25ee07321928d02a7bee797b2eaa2fa))
+
 ## [2.0.17](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.16...2.0.17) (2022-06-06)
 
 
