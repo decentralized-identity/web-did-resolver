@@ -41,12 +41,8 @@ A minimal DID Document might contain the following information:
       "publicKeyHex": "04ab0102bcae6c7c3a90b01a3879d9518081bc06123038488db9cb109b082a77d97ea3373e3dfde0eccd9adbdce11d0302ea5c098dbb0b310234c8689501749274"
     }
   ],
-  "authentication": [
-    {
-      "type": "Secp256k1SignatureAuthentication2018",
-      "publicKey": "did:web:example.com#owner"
-    }
-  ]
+  "assertionMethod": [ "did:web:example.com#owner" ],
+  "authentication": [ "did:web:example.com#owner" ]
 }
 ```
 
