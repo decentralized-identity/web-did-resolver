@@ -1,34 +1,32 @@
-import fetch from 'cross-fetch'
 import { DIDDocument, DIDResolutionResult, DIDResolver, ParsedDID } from 'did-resolver'
-
-const DOC_PATH = '/.well-known/did.json'
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function get(url: string): Promise<any> {
-  const res = await fetch(url, { mode: 'cors' })
-  if (res.status >= 400) {
-    throw new Error(`Bad response ${res.statusText}`)
-  }
-  return res.json()
-}
+import { resolve } from '@aviarytech/did-peer'
+import { IDIDDocumentServiceDescriptor } from '@aviarytech/did-peer/interfaces.js'
 
 export function getResolver(): Record<string, DIDResolver> {
-  async function resolve(did: string, parsed: ParsedDID): Promise<DIDResolutionResult> {
-    let err = null
-    let path = decodeURIComponent(parsed.id) + DOC_PATH
-    const id = parsed.id.split(':')
-    if (id.length > 1) {
-      path = id.map(decodeURIComponent).join('/') + '/did.json'
-    }
-
-    const url = `https://${path}`
-
+  async function resolveInner(did: string, parsed: ParsedDID): Promise<DIDResolutionResult> {
     const didDocumentMetadata = {}
     let didDocument: DIDDocument | null = null
-
+    let err = ''
     do {
       try {
-        didDocument = await get(url)
+        const doc = await resolve(did)
+        didDocument = {
+          '@context': doc['@context'],
+          id: doc.id,
+          verificationMethod: doc.verificationMethod,
+          keyAgreement: doc.keyAgreement,
+          authentication: doc.authentication,
+          assertionMethod: doc.assertionMethod,
+          capabilityInvocation: doc.capabilityInvocation,
+          capabilityDelegation: doc.capabilityDelegation,
+          service: doc.service as IDIDDocumentServiceDescriptor[],
+        }
+        if (doc.alsoKnownAs) {
+          didDocument.alsoKnownAs = [doc.alsoKnownAs]
+        }
+        if (doc.controller) {
+          didDocument.controller = doc.controller
+        }
       } catch (error) {
         err = `resolver_error: DID must resolve to a valid https URL containing a JSON document: ${error}`
         break
@@ -64,5 +62,5 @@ export function getResolver(): Record<string, DIDResolver> {
     }
   }
 
-  return { web: resolve }
+  return { peer: resolveInner }
 }

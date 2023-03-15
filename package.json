@@ -1,14 +1,10 @@
 {
-  "name": "web-did-resolver",
-  "version": "2.0.21",
-  "description": "Resolve DID documents from an https domain",
+  "name": "peer-did-resolver",
+  "version": "1.0.0",
+  "description": "Resolve DID documents for did:peer",
   "type": "module",
   "source": "src/resolver.ts",
-  "main": "./lib/resolver.cjs",
-  "module": "./lib/resolver.module.js",
-  "unpkg": "./lib/resolver.umd.js",
   "types": "./lib/resolver.d.ts",
-  "umd:main": "./lib/resolver.umd.js",
   "files": [
     "lib",
     "src",
@@ -16,27 +12,23 @@
   ],
   "exports": {
     ".": {
-      "require": "./lib/resolver.cjs",
-      "import": "./lib/resolver.module.js"
+      "import": "./lib/resolver.js"
     }
   },
-  "author": "Mike Xu",
-  "contributors": [
-    "Mircea Nistor <mircea.nistor@mesh.xyz>"
-  ],
+  "author": "Nick Reynolds <nick.reynolds@mesh.xyz>",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:decentralized-identity/web-did-resolver.git"
+    "url": "git@github.com:veramolabs/peer-did-resolver.git"
   },
   "dependencies": {
-    "cross-fetch": "^3.1.5",
+    "@aviarytech/did-peer": "^0.0.19",
     "did-resolver": "^4.0.0"
   },
   "scripts": {
     "test": "jest",
     "test:ci": "jest --coverage",
-    "build": "microbundle --compress=false",
+    "build": "tsc",
     "format": "prettier --write \"src/**/*.[jt]s\"",
     "lint": "eslint --ignore-pattern \"src/**/*.test.[jt]s\" \"src/**/*.[jt]s\"",
     "prepublishOnly": "yarn test:ci && yarn format && yarn lint",
@@ -53,7 +45,8 @@
     "testEnvironment": "node",
     "testMatch": [
       "**/__tests__/**/*.test.[jt]s"
-    ]
+    ],
+    "transformIgnorePatterns": ["/node_modules/@aviarytech/peer-did"]
   },
   "devDependencies": {
     "@babel/core": "7.20.2",

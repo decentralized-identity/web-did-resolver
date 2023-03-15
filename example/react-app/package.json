@@ -4,13 +4,13 @@
   "private": true,
   "dependencies": {
     "did-resolver": "4.0.1",
+    "peer-did-resolver": "../../",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-scripts": "5.0.1",
-    "web-did-resolver": "../../"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
-    "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
+    "start": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "build": "react-scripts build"
   },
   "eslintConfig": {
@@ -30,5 +30,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
