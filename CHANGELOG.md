@@ -1,3 +1,10 @@
+## [2.0.23](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.22...2.0.23) (2023-04-03)
+
+
+### Bug Fixes
+
+* **build:** publish types in package.json ([174afe8](https://github.com/decentralized-identity/web-did-resolver/commit/174afe8be23fbdd1a3f260ed1ebd20d2416a9abd))
+
 ## [2.0.22](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.21...2.0.22) (2023-03-23)
 
 
