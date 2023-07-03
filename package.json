@@ -29,7 +29,7 @@
     "url": "git@github.com:decentralized-identity/web-did-resolver.git"
   },
   "dependencies": {
-    "cross-fetch": "^3.1.5",
+    "cross-fetch": "^4.0.0",
     "did-resolver": "^4.0.0"
   },
   "scripts": {
