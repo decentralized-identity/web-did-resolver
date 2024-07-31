@@ -55,8 +55,8 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "7.24.9",
-    "@babel/preset-env": "7.24.8",
+    "@babel/core": "7.25.2",
+    "@babel/preset-env": "7.25.3",
     "@babel/preset-typescript": "7.24.7",
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/git": "10.0.1",
@@ -73,6 +73,6 @@
     "prettier": "3.3.3",
     "regenerator-runtime": "0.14.1",
     "semantic-release": "22.0.12",
-    "typescript": "5.5.3"
+    "typescript": "5.5.4"
   }
 }
