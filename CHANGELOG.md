@@ -1,3 +1,10 @@
+## [2.0.29](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.28...2.0.29) (2025-01-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency cross-fetch to v4.1.0 ([#136](https://github.com/decentralized-identity/web-did-resolver/issues/136)) ([39fc091](https://github.com/decentralized-identity/web-did-resolver/commit/39fc091893d3edc01272c77f9a3b6f6280e9791f))
+
 ## [2.0.28](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.27...2.0.28) (2025-01-24)
 
 
