@@ -1,6 +1,6 @@
 {
   "name": "web-did-resolver",
-  "version": "2.0.30",
+  "version": "2.0.31",
   "description": "Resolve DID documents from an https domain",
   "type": "module",
   "source": "src/resolver.ts",
