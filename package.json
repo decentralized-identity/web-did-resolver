@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "cross-fetch": "^4.1.0",
-    "did-resolver": "^4.1.0"
+    "did-resolver": "^5.0.0"
   },
   "scripts": {
     "test": "jest",

@@ -4920,10 +4920,10 @@ detect-newline@^3.1.0:
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
-did-resolver@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-4.1.0.tgz#740852083c4fd5bf9729d528eca5d105aff45eb6"
-  integrity sha512-S6fWHvCXkZg2IhS4RcVHxwuyVejPR7c+a4Go0xbQ9ps5kILa8viiYQgrM4gfTyeTjJ0ekgJH9gk/BawTpmkbZA==
+did-resolver@^5.0.0:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-5.0.1.tgz#5d6775b236b64124341471807d84058c76ff64db"
+  integrity sha512-AtbIfBt/D9Z6GeNKhm1AzCbF7y5PhsNukgmVYnsdxbIX8UAsquQpbm8ECfPwDRXAOM3EsGdHheK5WMojcPlAPg==
 
 diff@^8.0.2:
   version "8.0.2"

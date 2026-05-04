@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "did-resolver": "4.1.0",
+    "did-resolver": "5.0.1",
     "react": "19.2.5",
     "react-dom": "19.2.5",
     "react-scripts": "5.0.1",
