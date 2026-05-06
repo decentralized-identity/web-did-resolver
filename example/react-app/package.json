@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "did-resolver": "5.0.1",
-    "react": "19.2.5",
-    "react-dom": "19.2.5",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
     "react-scripts": "5.0.1",
     "web-did-resolver": "../../"
   },
