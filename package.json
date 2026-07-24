@@ -55,16 +55,16 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "7.29.7",
-    "@babel/preset-env": "7.29.7",
-    "@babel/preset-typescript": "7.29.7",
-    "@semantic-release/changelog": "6.0.3",
-    "@semantic-release/git": "10.0.1",
+    "@babel/core": "8.0.1",
+    "@babel/preset-env": "8.0.2",
+    "@babel/preset-typescript": "8.0.1",
+    "@semantic-release/changelog": "7.0.0",
+    "@semantic-release/git": "11.0.1",
     "@types/jest": "30.0.0",
     "@typescript-eslint/eslint-plugin": "8.64.0",
     "@typescript-eslint/parser": "8.64.0",
     "babel-jest": "30.4.1",
-    "eslint": "9.39.5",
+    "eslint": "10.8.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-jest": "29.15.4",
     "eslint-plugin-prettier": "5.5.6",
@@ -73,7 +73,7 @@
     "prettier": "3.9.5",
     "regenerator-runtime": "0.14.1",
     "semantic-release": "25.0.8",
-    "typescript": "5.9.3"
+    "typescript": "7.0.2"
   },
   "packageManager": "yarn@1.22.22"
 }
