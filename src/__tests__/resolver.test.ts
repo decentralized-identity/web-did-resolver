@@ -1,6 +1,6 @@
-import { Resolver, type DIDDocument, type Resolvable } from 'did-resolver'
+import { Resolver, type DIDDocument, type ParsedDID, type Resolvable } from 'did-resolver'
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getResolver } from '../index.js'
+import { getResolver, webParser } from '../index.js'
 
 const mockedFetch = vi.fn()
 
@@ -62,6 +62,14 @@ describe('web did resolver', () => {
   it('returns resolutionError if the DID document cannot be retrieved', async () => {
     expect.assertions(2)
     mockedFetch.mockRejectedValueOnce(new Error('network failure'))
+    const result = await didResolver.resolve(did)
+    expect(result.didResolutionMetadata.error).toEqual('resolutionError')
+    expect(result.didResolutionMetadata.message).toMatch(/Unable to retrieve DID document: network failure/)
+  })
+
+  it('returns resolutionError if the DID document request rejects with a non-Error value', async () => {
+    expect.assertions(2)
+    mockedFetch.mockRejectedValueOnce('network failure')
     const result = await didResolver.resolve(did)
     expect(result.didResolutionMetadata.error).toEqual('resolutionError')
     expect(result.didResolutionMetadata.message).toMatch(/Unable to retrieve DID document: network failure/)
@@ -160,6 +168,7 @@ describe('web did resolver', () => {
     'did:web::user',
     'did:web:example.com::user',
     'did:web:%3A8443',
+    'did:web:%',
     'did:web:%25',
     'did:web:example.com%2Fpath',
     'did:web:example.com%3A',
@@ -176,6 +185,28 @@ describe('web did resolver', () => {
       didResolutionMetadata: { error: 'invalidDid' },
     })
     expect(mockedFetch).not.toHaveBeenCalled()
+  })
+
+  it('rejects a parser input with malformed percent encoding in its authority', () => {
+    const parsed: ParsedDID = {
+      did: 'did:web:%',
+      didUrl: 'did:web:%',
+      method: 'web',
+      id: '%',
+    }
+    expect(webParser(parsed)).toBeNull()
+  })
+
+  it('returns resolutionError if an unexpected error occurs while resolving a DID document', async () => {
+    expect.assertions(2)
+    mockedFetch.mockResolvedValueOnce({
+      get status(): number {
+        throw new Error('unexpected response error')
+      },
+    } as Response)
+    const result = await didResolver.resolve(did)
+    expect(result.didResolutionMetadata.error).toEqual('resolutionError')
+    expect(result.didResolutionMetadata.message).toEqual('Unable to resolve DID document: unexpected response error')
   })
 
   it('resolves a DID with an IPv6 host and port', async () => {
