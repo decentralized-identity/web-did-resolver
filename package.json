@@ -4,19 +4,25 @@
   "description": "Resolve DID documents from an https domain",
   "type": "module",
   "source": "src/resolver.ts",
-  "main": "./lib/resolver.cjs",
-  "module": "./lib/resolver.module.js",
-  "types": "./lib/resolver.d.ts",
+  "main": "./lib.commonjs/resolver.js",
+  "module": "./lib.esm/resolver.js",
+  "types": "./lib.commonjs/resolver.d.ts",
   "files": [
-    "lib",
+    "lib.commonjs",
+    "lib.esm",
     "src",
     "LICENSE"
   ],
   "exports": {
     ".": {
-      "types": "./lib/resolver.d.ts",
-      "require": "./lib/resolver.cjs",
-      "import": "./lib/resolver.module.js"
+      "import": {
+        "types": "./lib.esm/resolver.d.ts",
+        "default": "./lib.esm/resolver.js"
+      },
+      "require": {
+        "types": "./lib.commonjs/resolver.d.ts",
+        "default": "./lib.commonjs/resolver.js"
+      }
     }
   },
   "author": "Mike Xu",
@@ -35,10 +41,12 @@
   "scripts": {
     "test": "vitest run",
     "test:ci": "vitest run --coverage",
-    "build": "tsup && tsc --emitDeclarationOnly",
+    "build": "pnpm build:common && pnpm build:esm",
+    "build:common": "node node_modules/typescript/bin/tsc6 --project tsconfig.common.json && echo '{\"type\":\"commonjs\"}' > lib.commonjs/package.json",
+    "build:esm": "node node_modules/typescript/bin/tsc6",
     "format": "biome format --write src",
     "lint": "biome lint src",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "node_modules/@typescript/native/bin/tsc --noEmit",
     "prepublishOnly": "pnpm test:ci && pnpm format && pnpm lint && pnpm typecheck",
     "release": "semantic-release --debug"
   },
@@ -46,9 +54,9 @@
     "@biomejs/biome": "2.5.14",
     "@semantic-release/changelog": "7.0.0",
     "@semantic-release/git": "11.0.1",
+    "@typescript/native": "npm:typescript@7.0.2",
     "semantic-release": "25.0.9",
-    "tsup": "8.5.1",
-    "typescript": "7.0.2",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
     "@vitest/coverage-v8": "5.0.1",
     "vitest": "5.0.1"
   },

@@ -10,7 +10,7 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "outDir": "lib",
+    "outDir": "lib.esm",
     "rootDir": "src",
     "strict": true,
     "moduleResolution": "nodenext",
@@ -21,7 +21,9 @@
   "exclude": [
     "**/__tests__/*",
     "node_modules",
-    "lib"
+    "lib",
+    "lib.commonjs",
+    "lib.esm"
   ],
   "include": [
     "src/**/*.ts"

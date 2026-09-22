@@ -1,5 +1,7 @@
 node_modules
 lib
+lib.commonjs
+lib.esm
 coverage
 
 .DS_Store
