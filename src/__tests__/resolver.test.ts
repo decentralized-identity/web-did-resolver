@@ -37,7 +37,6 @@ describe('web did resolver', () => {
   })
 
   it('resolves document', async () => {
-    expect.assertions(2)
     mockedFetch.mockResolvedValueOnce({
       json: () => Promise.resolve(validResponse),
     } as Response)
@@ -47,7 +46,6 @@ describe('web did resolver', () => {
   })
 
   it('resolves document with long did', async () => {
-    expect.assertions(1)
     const validResponseLong: DIDDocument = JSON.parse(JSON.stringify(validResponse).replace(did, didLong))
     mockedFetch.mockResolvedValueOnce({
       json: () => Promise.resolve(validResponseLong),
@@ -57,14 +55,12 @@ describe('web did resolver', () => {
   })
 
   it('fails if the did is not a valid https url', async () => {
-    expect.assertions(1)
     mockedFetch.mockRejectedValueOnce({ status: 404 })
     const result = await didResolver.resolve(did)
     expect(result.didResolutionMetadata.error).toEqual('notFound')
   })
 
   it('fails if the did document is not valid json', async () => {
-    expect.assertions(2)
     mockedFetch.mockResolvedValueOnce({
       json: () => Promise.reject(new Error('unable to parse json')),
     } as Response)
@@ -74,7 +70,6 @@ describe('web did resolver', () => {
   })
 
   it('fails if the web server produces an error', async () => {
-    expect.assertions(2)
     mockedFetch.mockResolvedValueOnce({
       status: 400,
     } as Response)
@@ -86,7 +81,6 @@ describe('web did resolver', () => {
   })
 
   it('fails if the did document id does not match', async () => {
-    expect.assertions(2)
     const wrongIdResponse: DIDDocument = {
       ...validResponse,
       id: 'did:web:wrong.com',
@@ -100,7 +94,6 @@ describe('web did resolver', () => {
   })
 
   it('returns correct contentType without @context', async () => {
-    expect.assertions(1)
     const noContextResponse: DIDDocument = {
       ...validResponse,
     }
@@ -113,7 +106,6 @@ describe('web did resolver', () => {
   })
 
   it('resolves doc with port did', async () => {
-    expect.assertions(2)
     const validResponsePort: DIDDocument = JSON.parse(JSON.stringify(validResponse).replace(did, didWithPort))
     mockedFetch.mockResolvedValueOnce({
       json: () => Promise.resolve(validResponsePort),
@@ -126,7 +118,6 @@ describe('web did resolver', () => {
   })
 
   it('resolves doc with URI encoded path components', async () => {
-    expect.assertions(2)
     const validResponseEncodedPath: DIDDocument = JSON.parse(
       JSON.stringify(validResponse).replace(did, didWithEncodedPath)
     )
