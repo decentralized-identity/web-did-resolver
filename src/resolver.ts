@@ -3,7 +3,6 @@ import { DIDDocument, DIDResolutionResult, DIDResolver, ParsedDID } from 'did-re
 
 const DOC_PATH = '/.well-known/did.json'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function get(url: string): Promise<any> {
   const res = await fetch(url, { mode: 'cors' })
   if (res.status >= 400) {
@@ -40,7 +39,6 @@ export function getResolver(): Record<string, DIDResolver> {
         err = 'resolver_error: DID document id does not match requested did'
         // break // uncomment this when adding more checks
       }
-      // eslint-disable-next-line no-constant-condition
     } while (false)
 
     const contentType =
