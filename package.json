@@ -3,20 +3,27 @@
   "version": "2.0.32",
   "description": "Resolve DID documents from an https domain",
   "type": "module",
-  "source": "src/resolver.ts",
-  "main": "./lib/resolver.cjs",
-  "module": "./lib/resolver.module.js",
-  "types": "./lib/resolver.d.ts",
+  "source": "src/index.ts",
+  "main": "./lib.commonjs/index.js",
+  "module": "./lib.esm/index.js",
+  "types": "./lib.commonjs/index.d.ts",
+  "sideEffects": false,
   "files": [
-    "lib",
+    "lib.commonjs",
+    "lib.esm",
     "src",
     "LICENSE"
   ],
   "exports": {
     ".": {
-      "types": "./lib/resolver.d.ts",
-      "require": "./lib/resolver.cjs",
-      "import": "./lib/resolver.module.js"
+      "import": {
+        "types": "./lib.esm/index.d.ts",
+        "default": "./lib.esm/index.js"
+      },
+      "require": {
+        "types": "./lib.commonjs/index.d.ts",
+        "default": "./lib.commonjs/index.js"
+      }
     }
   },
   "author": "Mike Xu",
@@ -33,47 +40,26 @@
     "did-resolver": "^6.0.0"
   },
   "scripts": {
-    "test": "jest",
-    "test:ci": "jest --coverage",
-    "build": "microbundle --compress=false",
-    "format": "prettier --write \"src/**/*.[jt]s\"",
-    "lint": "eslint --ignore-pattern \"**/*.test.[m][jt]s\" \"src/**/*.[jt]s\"",
-    "prepublishOnly": "yarn test:ci && yarn format && yarn lint",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage",
+    "build": "pnpm build:common && pnpm build:esm",
+    "build:common": "node node_modules/typescript/bin/tsc6 --project tsconfig.common.json && echo '{\"type\":\"commonjs\"}' > lib.commonjs/package.json",
+    "build:esm": "node node_modules/typescript/bin/tsc6",
+    "format": "biome format --write src",
+    "lint": "biome lint src",
+    "typecheck": "node_modules/@typescript/native/bin/tsc --noEmit",
+    "prepublishOnly": "pnpm test:ci && pnpm format && pnpm lint && pnpm typecheck",
     "release": "semantic-release --debug"
   },
-  "jest": {
-    "clearMocks": true,
-    "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}",
-      "!src/**/*.d.ts",
-      "!**/node_modules/**",
-      "!**/__tests__/**"
-    ],
-    "testEnvironment": "node",
-    "testMatch": [
-      "**/__tests__/**/*.test.[jt]s"
-    ]
-  },
   "devDependencies": {
-    "@babel/core": "7.29.7",
-    "@babel/preset-env": "7.29.7",
-    "@babel/preset-typescript": "7.29.7",
-    "@semantic-release/changelog": "6.0.3",
-    "@semantic-release/git": "10.0.1",
-    "@types/jest": "30.0.0",
-    "@typescript-eslint/eslint-plugin": "8.70.0",
-    "@typescript-eslint/parser": "8.70.0",
-    "babel-jest": "30.5.2",
-    "eslint": "9.39.5",
-    "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-jest": "29.16.6",
-    "eslint-plugin-prettier": "5.5.6",
-    "jest": "30.5.2",
-    "microbundle": "0.15.1",
-    "prettier": "3.9.8",
-    "regenerator-runtime": "0.14.1",
+    "@biomejs/biome": "2.5.14",
+    "@semantic-release/changelog": "7.0.0",
+    "@semantic-release/git": "11.0.1",
+    "@typescript/native": "npm:typescript@7.0.2",
     "semantic-release": "25.0.9",
-    "typescript": "5.9.3"
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "@vitest/coverage-v8": "5.0.1",
+    "vitest": "5.0.1"
   },
-  "packageManager": "yarn@1.22.22"
+  "packageManager": "pnpm@12.5.1"
 }

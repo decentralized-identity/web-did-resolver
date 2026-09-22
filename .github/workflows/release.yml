@@ -13,14 +13,16 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GH_TOKEN }}
 
+      - uses: pnpm/action-setup@v4
+
       - name: "Setup node with cache"
         uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: 'yarn'
+          cache: 'pnpm'
 
-      - run: yarn install --frozen-lockfile
-      - run: yarn run build
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
 
       - name: "Setup git coordinates"
         run: |
@@ -32,4 +34,4 @@ jobs:
           GH_TOKEN: ${{secrets.GH_TOKEN}}
           NPM_TOKEN: ${{secrets.NPM_TOKEN}}
         if: github.ref == 'refs/heads/master'
-        run: yarn run release
+        run: pnpm release

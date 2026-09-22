@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2018",
-    "module": "esnext",
+    "target": "ES2022",
+    "module": "nodenext",
     "lib": [
       "dom",
       "es6",
@@ -10,12 +10,10 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "outDir": "lib",
+    "outDir": "lib.esm",
+    "rootDir": "src",
     "strict": true,
-    "moduleResolution": "node",
-    "types": [
-      "jest"
-    ],
+    "moduleResolution": "nodenext",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "esModuleInterop": true
@@ -23,6 +21,11 @@
   "exclude": [
     "**/__tests__/*",
     "node_modules",
-    "lib"
+    "lib",
+    "lib.commonjs",
+    "lib.esm"
+  ],
+  "include": [
+    "src/**/*.ts"
   ]
 }

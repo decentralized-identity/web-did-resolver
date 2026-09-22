@@ -1,8 +1,10 @@
-import { Resolver, DIDDocument, Resolvable } from 'did-resolver'
-import { getResolver } from '../resolver'
+import { Resolver, type DIDDocument, type Resolvable } from 'did-resolver'
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { getResolver } from '../index.js'
 import fetch from 'cross-fetch'
-jest.mock('cross-fetch')
-const mockedFetch = jest.mocked(fetch)
+
+vi.mock('cross-fetch')
+const mockedFetch = vi.mocked(fetch)
 
 describe('web did resolver', () => {
   const did: string = 'did:web:example.com'
@@ -26,7 +28,7 @@ describe('web did resolver', () => {
 
   let didResolver: Resolvable
 
-  beforeAll(async () => {
+  beforeAll(() => {
     didResolver = new Resolver(getResolver())
   })
 

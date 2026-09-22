@@ -1,0 +1,5 @@
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - 'did-resolver@6.0.0'
+allowBuilds:
+  esbuild: false
