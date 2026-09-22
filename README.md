@@ -12,6 +12,17 @@ It supports the proposed [`did:web` method spec](https://w3c-ccg.github.io/did-m
 
 It requires the `did-resolver` library, which is the primary interface for resolving DIDs.
 
+## Runtime requirements
+
+This library resolves DID documents using the runtime's global `fetch` and no longer
+bundles a `fetch` polyfill. It requires one of:
+
+- A modern browser (all evergreen browsers ship `fetch`)
+- Node.js `>=22`
+- React Native `>=0.76` (Hermes with `fetch` support)
+
+If you target an older runtime without a global `fetch` (for example Node.js `<18` or an older React Native/Hermes engine), polyfill `fetch` yourself (e.g. via `cross-fetch` or `whatwg-fetch`) before importing this package.
+
 ## Migration from 2.x
 
 Version 3 requires `did-resolver` version 6. Consumers using `did-resolver` 4 or 5 must upgrade to avoid incompatible duplicate TypeScript types.

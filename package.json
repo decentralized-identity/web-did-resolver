@@ -26,6 +26,9 @@
       }
     }
   },
+  "engines": {
+    "node": ">=22"
+  },
   "author": "Mike Xu",
   "contributors": [
     "Mircea Nistor"
