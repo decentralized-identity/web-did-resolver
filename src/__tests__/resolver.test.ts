@@ -1,6 +1,6 @@
 import { Resolver, type DIDDocument, type Resolvable } from 'did-resolver'
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getResolver } from '../resolver'
+import { getResolver } from '../index.js'
 import fetch from 'cross-fetch'
 
 vi.mock('cross-fetch')
