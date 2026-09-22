@@ -8,7 +8,8 @@ This library is intended to represent domains accessed through https as
 [Decentralized Identifiers](https://w3c.github.io/did-core/#identifier)
 and retrieve an associated [DID Document](https://w3c.github.io/did-core/#did-document-properties)
 
-It supports the proposed [`did:web` method spec](https://w3c-ccg.github.io/did-method-web/) from the [W3C Credentials Community Group](https://w3c-ccg.github.io).
+It supports the proposed [`did:web` method spec](https://w3c-ccg.github.io/did-method-web/) from
+the [W3C Credentials Community Group](https://w3c-ccg.github.io).
 
 It requires the `did-resolver` library, which is the primary interface for resolving DIDs.
 
@@ -39,7 +40,8 @@ eg: `https://example.com -> did:web:example.com`
 
 ## DID Document
 
-The DID resolver takes the domain and forms a [well-known URI](https://tools.ietf.org/html/rfc5785) to access the DID Document.
+The DID resolver takes the domain and forms a [well-known URI](https://tools.ietf.org/html/rfc5785)
+to access the DID Document.
 
 For a did `did:web:example.com`, the resolver will attempt to access the document at
 `https://example.com/.well-known/did.json`
@@ -63,7 +65,8 @@ A minimal DID Document might contain the following information:
 }
 ```
 
-Note: this example uses the `Secp256k1VerificationKey2018` type and an `publicKeyHex` as a publicKey entry, signaling that this DID is claiming to control the private key associated with that publicKey.
+Note: this example uses the `Secp256k1VerificationKey2018` type and an `publicKeyHex` as a publicKey entry, signaling
+that this DID is claiming to control the private key associated with that publicKey.
 
 ## Resolving a DID document
 
@@ -72,7 +75,7 @@ Note: this example uses the `Secp256k1VerificationKey2018` type and an `publicKe
 
 ```js
 import { Resolver } from 'did-resolver'
-import { getResolver, webParser } from 'web-did-resolver'
+import { getResolver } from 'web-did-resolver'
 
 const webResolver = getResolver()
 
