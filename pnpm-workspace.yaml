@@ -1,0 +1,11 @@
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - '@biomejs/biome@2.5.14'
+  - '@semantic-release/changelog@7.0.0'
+  - '@semantic-release/git@11.0.1'
+  - '@vitest/coverage-v8@5.0.1'
+  - 'did-resolver@6.0.0'
+  - 'typescript@7.0.2'
+  - 'vitest@5.0.1'
+allowBuilds:
+  esbuild: true
