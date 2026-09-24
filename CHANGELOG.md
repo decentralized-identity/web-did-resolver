@@ -1,5 +1,11 @@
 ## [2.0.32](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.31...2.0.32) (2025-12-03)
 
+## 3.1.0
+
+### Minor Changes
+
+- [#140](https://github.com/decentralized-identity/web-did-resolver/pull/140) [`2a23e00`](https://github.com/decentralized-identity/web-did-resolver/commit/2a23e0093bcf85593c7f414d93d1f85da0044de8) Thanks [@rmlearney-digicatapult](https://github.com/rmlearney-digicatapult)! - Add strict `did:web` parsing with an exported `webParser`, improve resolution error metadata, and support DID URLs with query and fragment components. The resolver now uses the runtime's global `fetch` and requires `did-resolver` v6.
+
 ## 3.0.0
 
 ### Major Changes
