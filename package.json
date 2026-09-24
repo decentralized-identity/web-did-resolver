@@ -43,22 +43,21 @@
     "test": "vitest run",
     "test:ci": "vitest run --coverage",
     "build": "pnpm build:common && pnpm build:esm",
-    "build:common": "node node_modules/typescript/bin/tsc6 --project tsconfig.common.json && echo '{\"type\":\"commonjs\"}' > lib.commonjs/package.json",
-    "build:esm": "node node_modules/typescript/bin/tsc6",
+    "build:common": "node_modules/@typescript/native/bin/tsc --project tsconfig.common.json && echo '{\"type\":\"commonjs\"}' > lib.commonjs/package.json",
+    "build:esm": "node_modules/@typescript/native/bin/tsc",
     "format": "biome format --write src",
     "lint": "biome lint src",
     "typecheck": "node_modules/@typescript/native/bin/tsc --noEmit",
     "prepublishOnly": "pnpm test:ci && pnpm format && pnpm lint && pnpm typecheck",
-    "release": "semantic-release --debug"
+    "changeset": "changeset",
+    "release:publish": "changeset publish"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
-    "@semantic-release/changelog": "7.0.0",
-    "@semantic-release/git": "11.0.1",
+    "@changesets/cli": "3.0.3",
     "@typescript/native": "npm:typescript@7.0.2",
-    "semantic-release": "25.0.9",
-    "typescript": "npm:@typescript/typescript6@6.0.2",
     "@vitest/coverage-v8": "5.0.1",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
     "vitest": "5.0.1"
   },
   "packageManager": "pnpm@12.5.1"
