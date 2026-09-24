@@ -26,9 +26,13 @@
       }
     }
   },
+  "engines": {
+    "node": ">=22"
+  },
   "author": "Mike Xu",
   "contributors": [
-    "Mircea Nistor"
+    "Mircea Nistor",
+    "Robert Learney"
   ],
   "license": "Apache-2.0",
   "repository": {
@@ -36,7 +40,6 @@
     "url": "git@github.com:decentralized-identity/web-did-resolver.git"
   },
   "dependencies": {
-    "cross-fetch": "^4.1.0",
     "did-resolver": "^6.0.0"
   },
   "scripts": {

@@ -13,6 +13,25 @@ the [W3C Credentials Community Group](https://w3c-ccg.github.io).
 
 It requires the `did-resolver` library, which is the primary interface for resolving DIDs.
 
+## Runtime requirements
+
+This library resolves DID documents using the runtime's global `fetch` and no longer
+bundles a `fetch` polyfill. It requires one of:
+
+- A modern browser (all evergreen browsers ship `fetch`)
+- Node.js `>=22`
+- React Native `>=0.76` (Hermes with `fetch` support)
+
+If you target an older runtime without a global `fetch` (for example Node.js `<18` or an older React Native/Hermes engine), polyfill `fetch` yourself (e.g. via `cross-fetch` or `whatwg-fetch`) before importing this package.
+
+## Migration from 2.x
+
+Version 3 requires `did-resolver` version 6. Consumers using `did-resolver` 4 or 5 must upgrade to avoid incompatible duplicate TypeScript types.
+
+Malformed `did:web` identifiers now resolve with `didResolutionMetadata.error` set to
+`invalidDid` rather than `notFound`. The exported `webParser` can also be reused when
+assembling a custom `ResolverRegistry`.
+
 ## DID method
 
 To encode a DID for an HTTPS domain, simply prepend `did:web:` to domain name.
@@ -51,7 +70,8 @@ that this DID is claiming to control the private key associated with that public
 
 ## Resolving a DID document
 
-The resolver presents a simple `resolver()` function that returns a ES6 Promise returning the DID document.
+`getResolver()` returns a resolver registry for the `did:web` method. Pass it to
+`Resolver`, optionally merging it with registries for other DID methods.
 
 ```js
 import { Resolver } from 'did-resolver'
@@ -60,15 +80,28 @@ import { getResolver } from 'web-did-resolver'
 const webResolver = getResolver()
 
 const didResolver = new Resolver({
-    ...webResolver
-    //...you can flatten multiple resolver methods into the Resolver
+    ...webResolver,
+    // Merge resolver registries for additional DID methods here.
 })
 
 didResolver.resolve('did:web:uport.me').then(doc => console.log(doc))
 
-// You can also use ES7 async/await syntax
+// You can also use async/await syntax
 ;(async () => {
     const doc = await didResolver.resolve('did:web:uport.me')
     console.log(doc)
 })();
 ```
+
+`getResolver()` attaches `webParser` to its `did:web` resolver automatically. When
+constructing a registry manually, attach `webParser` to the method resolver so malformed
+identifiers are rejected before any network request.
+
+When resolution cannot retrieve or parse a DID document, the resolver reports the
+library-defined `resolutionError` code in `didResolutionMetadata.error`.
+
+## Resolution behavior
+
+The resolver implements the `did:web` document-location derivation and document-ID
+verification steps. HTTPS/TLS connection security and DNS-resolution security are
+provided by the calling runtime.
