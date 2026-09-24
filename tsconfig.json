@@ -1,31 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "es2024",
     "module": "nodenext",
-    "lib": [
-      "dom",
-      "es6",
-      "es2015.promise"
-    ],
+    "lib": ["es2024"],
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "outDir": "lib.esm",
     "rootDir": "src",
     "strict": true,
-    "moduleResolution": "nodenext",
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true
+    "skipLibCheck": true
   },
   "exclude": [
     "**/__tests__/*",
     "node_modules",
-    "lib",
     "lib.commonjs",
     "lib.esm"
   ],
   "include": [
-    "src/**/*.ts"
+    "src"
   ]
 }
