@@ -1,5 +1,12 @@
 ## [2.0.32](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.31...2.0.32) (2025-12-03)
 
+## 3.0.0
+
+### Major Changes
+
+- [#139](https://github.com/decentralized-identity/web-did-resolver/pull/139) [`7d9cdf6`](https://github.com/decentralized-identity/web-did-resolver/commit/7d9cdf6c86756b6d3e57ae31f17ef678e2744260) Thanks [@rmlearney-digicatapult](https://github.com/rmlearney-digicatapult)! - Migrate to TS7, Vitest, Biome, pnpm
+  BREAKING CHANGE: the package exports map has changed, and this counts as breaking even if the functionality remains the same.
+
 
 ### Bug Fixes
 
