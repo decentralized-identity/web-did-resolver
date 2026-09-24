@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "es2024",
     "module": "nodenext",
     "lib": [
-      "dom",
-      "es6",
-      "es2015.promise"
+      "es2024",
+      "dom"
     ],
     "declaration": true,
     "declarationMap": true,
