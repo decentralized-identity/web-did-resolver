@@ -4,7 +4,7 @@
 
 ### Major Changes
 
-- [#141](https://github.com/decentralized-identity/web-did-resolver/pull/141) [`b3ec35e`](https://github.com/decentralized-identity/web-did-resolver/commit/b3ec35e650bd4db78e40bd0233db108725f5a9ef) Thanks [@mirceanis](https://github.com/mirceanis)! - Migrate to TS7, Vitest, Biome, pnpm ([#139](https://github.com/decentralized-identity/web-did-resolver/issues/139))
+- [#139](https://github.com/decentralized-identity/web-did-resolver/pull/139) [`7d9cdf6`](https://github.com/decentralized-identity/web-did-resolver/commit/7d9cdf6c86756b6d3e57ae31f17ef678e2744260) Thanks [@rmlearney-digicatapult](https://github.com/rmlearney-digicatapult)! - Migrate to TS7, Vitest, Biome, pnpm
   BREAKING CHANGE: the package exports map has changed, and this counts as breaking even if the functionality remains the same.
 
 
