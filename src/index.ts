@@ -2,6 +2,23 @@ import { DIDDocument, DIDResolutionResult, DIDResolver, ParsedDID } from 'did-re
 
 const DOC_PATH = '/.well-known/did.json'
 
+/** Minimal subset of the Fetch API that the resolver relies on. */
+export interface WebDidFetchResponse {
+  readonly status: number
+  readonly statusText?: string
+  json(): Promise<unknown>
+}
+
+export type WebDidFetch = (url: string, init: { mode?: RequestMode }) => Promise<WebDidFetchResponse>
+
+export interface WebDidResolverOptions {
+  /**
+   * Fetch implementation used for every DID document request. Defaults to the
+   * runtime's global `fetch`, looked up when each request is made.
+   */
+  fetch?: WebDidFetch
+}
+
 type ResolutionErrorCode = 'notFound' | 'resolutionError'
 
 class WebResolutionError extends Error {
@@ -17,10 +34,10 @@ function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error)
 }
 
-async function get(url: string): Promise<any> {
-  let res: Response
+async function get(fetchFn: WebDidFetch, url: string): Promise<any> {
+  let res: WebDidFetchResponse
   try {
-    res = await fetch(url, { mode: 'cors' })
+    res = await fetchFn(url, { mode: 'cors' })
   } catch (error) {
     throw new WebResolutionError('resolutionError', `Unable to retrieve DID document: ${errorMessage(error)}`)
   }
@@ -84,7 +101,7 @@ export function webParser(parsed: ParsedDID): ParsedDID | null {
   }
 }
 
-export function getResolver(): Record<string, DIDResolver> {
+export function getResolver(options: WebDidResolverOptions = {}): Record<string, DIDResolver> {
   async function resolve(_did: string, parsed: ParsedDID): Promise<DIDResolutionResult> {
     let err: WebResolutionError | undefined
     let path = decodeURIComponent(parsed.id) + DOC_PATH
@@ -100,7 +117,9 @@ export function getResolver(): Record<string, DIDResolver> {
 
     do {
       try {
-        didDocument = await get(url)
+        // The local binding avoids `this === options`, which would make browser fetch throw "Illegal invocation".
+        const fetchFn = options.fetch ?? globalThis.fetch
+        didDocument = await get(fetchFn, url)
       } catch (error) {
         err =
           error instanceof WebResolutionError
