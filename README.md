@@ -15,8 +15,7 @@ It requires the `did-resolver` library, which is the primary interface for resol
 
 ## Runtime requirements
 
-This library resolves DID documents using the runtime's global `fetch` and no longer
-bundles a `fetch` polyfill. It requires one of:
+By default, this library resolves DID documents using the runtime's global `fetch`and no longer bundles a `fetch` polyfill. It requires one of:
 
 - A modern browser (all evergreen browsers ship `fetch`)
 - Node.js `>=22`
@@ -92,6 +91,17 @@ didResolver.resolve('did:web:uport.me').then(doc => console.log(doc))
     console.log(doc)
 })();
 ```
+
+### Custom fetch
+
+Pass an application-supplied fetch to `getResolver()` to control DID document
+requests without replacing the runtime's global fetch:
+
+```js
+const didResolver = new Resolver(getResolver({ fetch: myFetch }))
+```
+
+The supplied fetch receives the resolver-built `https://` URL and `{ mode: 'cors' }` options.
 
 `getResolver()` attaches `webParser` to its `did:web` resolver automatically. When
 constructing a registry manually, attach `webParser` to the method resolver so malformed
