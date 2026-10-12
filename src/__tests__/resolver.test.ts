@@ -1,8 +1,9 @@
 import { Resolver, type DIDDocument, type ParsedDID, type Resolvable } from 'did-resolver'
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getResolver, webParser } from '../index.js'
+import { getResolver, type WebDidFetch, webParser } from '../index.js'
 
 const mockedFetch = vi.fn()
+const globalFetchTypeCheck: WebDidFetch = globalThis.fetch
 
 describe('web did resolver', () => {
   const did: string = 'did:web:example.com'
@@ -36,7 +37,59 @@ describe('web did resolver', () => {
   })
 
   beforeEach(() => {
-    mockedFetch.mockClear()
+    vi.stubGlobal('fetch', mockedFetch)
+    mockedFetch.mockReset()
+  })
+
+  it('accepts the runtime fetch as a WebDidFetch implementation', () => {
+    expect(globalFetchTypeCheck).toBeTypeOf('function')
+  })
+
+  it('uses the configured fetch without calling the global fetch', async () => {
+    const observedThis: unknown[] = []
+    const unboundFetch: WebDidFetch = vi.fn(function (this: unknown) {
+      observedThis.push(this)
+      return Promise.resolve({ json: () => Promise.resolve(validResponse) })
+    })
+    const resolver = new Resolver(getResolver({ fetch: unboundFetch }))
+    mockedFetch.mockResolvedValueOnce({
+      json: () => Promise.resolve(validResponse),
+    })
+
+    const result = await resolver.resolve(did)
+
+    expect(result.didDocument).toEqual(validResponse)
+    expect(unboundFetch).toHaveBeenCalledWith('https://example.com/.well-known/did.json', {
+      mode: 'cors',
+    })
+    expect(observedThis).toEqual([undefined])
+    expect(mockedFetch).not.toHaveBeenCalled()
+  })
+
+  it('uses the global fetch installed after creating the resolver', async () => {
+    const resolver = new Resolver(getResolver())
+    const lateFetch: WebDidFetch = vi.fn().mockResolvedValue({
+      json: () => Promise.resolve(validResponse),
+    })
+    vi.stubGlobal('fetch', lateFetch)
+
+    const result = await resolver.resolve(did)
+
+    expect(result.didDocument).toEqual(validResponse)
+    expect(lateFetch).toHaveBeenCalledTimes(1)
+  })
+
+  it('ignores fetch supplied in per-call resolution options', async () => {
+    const otherFetch: WebDidFetch = vi.fn()
+    mockedFetch.mockResolvedValueOnce({
+      json: () => Promise.resolve(validResponse),
+    })
+
+    const result = await didResolver.resolve(did, { fetch: otherFetch })
+
+    expect(result.didDocument).toEqual(validResponse)
+    expect(mockedFetch).toHaveBeenCalledTimes(1)
+    expect(otherFetch).not.toHaveBeenCalled()
   })
 
   it('resolves document', async () => {
