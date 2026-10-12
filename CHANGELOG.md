@@ -1,5 +1,11 @@
 ## [2.0.32](https://github.com/decentralized-identity/web-did-resolver/compare/2.0.31...2.0.32) (2025-12-03)
 
+## 3.2.0
+
+### Minor Changes
+
+- [#153](https://github.com/decentralized-identity/web-did-resolver/pull/153) [`0e1d7a5`](https://github.com/decentralized-identity/web-did-resolver/commit/0e1d7a5c111ff3454d0d3a54cde604c4e9ccd879) Thanks [@rmlearney-digicatapult](https://github.com/rmlearney-digicatapult)! - Add `getResolver({ fetch })` to resolve `did:web` documents with an application-supplied fetch without replacing `globalThis.fetch`. The default remains the runtime's global `fetch`, looked up per request. Exports `WebDidResolverOptions`, `WebDidFetch` and `WebDidFetchResponse`.
+
 ## 3.1.0
 
 ### Minor Changes
