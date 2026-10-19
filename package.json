@@ -60,9 +60,9 @@
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "3.0.3",
     "@typescript/native": "npm:typescript@7.0.2",
-    "@vitest/coverage-v8": "5.0.3",
+    "@vitest/coverage-v8": "5.0.5",
     "typescript": "npm:@typescript/typescript6@6.0.2",
-    "vitest": "5.0.3"
+    "vitest": "5.0.5"
   },
   "packageManager": "pnpm@12.11.2"
 }
