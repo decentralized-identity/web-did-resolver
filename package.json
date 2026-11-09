@@ -56,13 +56,13 @@
     "release:publish": "changeset publish"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.4",
+    "@biomejs/biome": "2.6.6",
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "3.0.3",
     "@typescript/native": "npm:typescript@7.0.2",
-    "@vitest/coverage-v8": "5.0.5",
+    "@vitest/coverage-v8": "5.1.0",
     "typescript": "npm:@typescript/typescript6@6.0.2",
-    "vitest": "5.0.5"
+    "vitest": "5.1.0"
   },
   "packageManager": "pnpm@12.18.0"
 }
